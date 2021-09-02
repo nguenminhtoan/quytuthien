@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tuthien;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use Illuminate\Support\Facades\Storage;
 use Exception;
@@ -10,7 +11,9 @@ use Exception;
 class HomeController extends Controller
 {
     public function index(){
-        return view("home.index");
+        $list = Tuthien::getlist();
+        $listhost = Tuthien::getlisthot();
+        return view("home.index", ['listhost' => $listhost, 'list' => $list]);
     }
     
     

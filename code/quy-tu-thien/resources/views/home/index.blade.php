@@ -13,32 +13,33 @@
                 <h2><span>Nổi bật</span></h2>
             </div>
             <div class="row listfeaturedtag">
+                @foreach ($listhost as $item)
                 <!-- begin post -->
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 wrapthumbnail">
-                                <a href="single.html">
-                                    <div class="thumbnail" style="background-image:url(assets/images/1.jpg);">
+                                <a href="/tu-thien/{{$item->ID_TUTHIEN}}">
+                                    <div class="thumbnail" style="background-image:url('{{$item->HINHANH}}');">
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-7">
                                 <div class="card-block">
-                                    <h2 class="card-title"><a href="single.html">Quyên góp cho bà con vùng lũ</a></h2>
-                                    <h4 class="card-text">Trước tiên Hưng xin khẳng định lại cho chính xác là sửa chùa chứ không phải xây chùa. Theo suy nghĩ của tôi, vùng đất Nghệ An...</h4>
-                                    <h6>Được quyên gớp: 21,000,000,000đ</h6>
-                                    <h6>Người tham gia: 3,000</h6>
+                                    <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item -> TENQUY}}</a></h2>
+                                    <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 230) !!}...</h4>
+                                    <h6>Được quyên gớp: {{number_format($item -> SOTIEN)."đ"}}</h6>
+                                    <h6>Người tham gia: {{number_format($item -> SONGUOI)}}</h6>
                                     <div class="metafooter">
                                         <div class="wrapfooter">
                                             <span class="meta-footer-thumb">
                                                 <img class="author-thumb" src="https://www.gravatar.com/avatar/b1cc14991db7a456fcd761680bbc8f81?s=250&d=mm&r=x" alt="John">
                                             </span>
                                             <span class="author-meta">
-                                                <span class="post-name">Đàm Vĩnh Hưng</span><br/>
-                                                <span class="post-date">2021/01/01</span>
+                                                <span class="post-name">{{$item -> PHUTRACH}}</span><br/>
+                                                <span class="post-date">{{date("Y/m/d" ,strtotime($item -> BATDAU))}}</span>
                                             </span>
-                                            <span class="post-read-more"><a href="single.html" title="Read Story">Đóng gớp</a></span>
+                                            <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Read Story">Đóng gớp</a></span>
                                             <div class="clearfix">
                                             </div>
                                         </div>
@@ -49,40 +50,7 @@
                     </div>
                 </div>
                 <!-- end post -->
-                <!-- begin post -->
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-5 wrapthumbnail">
-                                <a href="single.html">
-                                    <div class="thumbnail" style="background-image:url(assets/images/4.jpg);">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-block">
-                                    <h2 class="card-title"><a href="single.html">Powerful things you can do with the Markdown editor</a></h2>
-                                    <h4 class="card-text">There are lots of powerful things you can do with the Markdown editor </h4>
-                                    <div class="metafooter">
-                                        <div class="wrapfooter">
-                                            <span class="meta-footer-thumb">
-                                                <img class="author-thumb" src="https://www.gravatar.com/avatar/e56154546cf4be74e393c62d1ae9f9d4?s=250&d=mm&r=x" alt="Sal">
-                                            </span>
-                                            <span class="author-meta">
-                                                <span class="post-name"><a target="_blank" href="#">Sal</a></span><br/>
-                                                <span class="post-date">12 Jan 2018</span>
-                                            </span>
-                                            <span class="post-read-more"><a href="single.html" title="Read Story"><i class="fa fa-link"></i></a></span>
-                                            <div class="clearfix">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end post -->
+                @endforeach
             </div>
         </section>
         <!-- Posts Index
