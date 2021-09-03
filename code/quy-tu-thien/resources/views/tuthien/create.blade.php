@@ -1,6 +1,19 @@
 @extends('layouts.layout_home')
 @section('content')
-
+<script src="https://cdn.tiny.cloud/1/yoabqynrahzewkgm5ww00xi1i9wnw5s4kd0lxfpcmb8liwth/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#mota',
+        plugins: ["advlist autolink lists link image charmap print preview anchor textcolor textcolor colorpicker",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste"],
+        toolbar: 'undo redo | bold italic underline | forecolor fontsizeselect |  numlist bullist checklist | alignleft aligncenter alignright link image',
+        automatic_uploads: true,
+        images_upload_url: '/admin/upload',
+        images_reuse_filename: true,
+        content_css: ["/css/style.css", "/css/admin-style.css"]
+    });
+</script>
 <div class="container">
     <!-- Content (replace with your e-mail address below)
     ================================================== -->
@@ -99,7 +112,7 @@
                     <div class="section-title">
                         <h2><span>Mô tả hoạt động và mục đích quyên gớp</span></h2>
                     </div>
-                    <textarea rows="8" class="form-control mb-3" name="message" placeholder="Message"></textarea>
+                    <textarea id="mota" rows="8" class="form-control mb-3" name="message" placeholder="Message"></textarea>
                     <input class="btn btn-success" type="submit" value="Send">
                 </form>
             </div>
