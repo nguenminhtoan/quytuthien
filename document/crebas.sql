@@ -110,7 +110,7 @@ create table NGUOITHAMGIA
    GHICHU               text,
    HINHANH              varchar(600),
    NGAYTAO              datetime,
-   primary key (MA_THAMGIA)
+   primary key (ID_THAMGIA)
 );
 
 /*==============================================================*/
