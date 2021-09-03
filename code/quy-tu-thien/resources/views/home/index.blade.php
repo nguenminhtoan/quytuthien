@@ -39,7 +39,7 @@
                                                 <span class="post-name">{{$item -> PHUTRACH}}</span><br/>
                                                 <span class="post-date">{{date("Y/m/d" ,strtotime($item -> BATDAU))}}</span>
                                             </span>
-                                            <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Chi tiết {{$item->TENQUY}}">Đóng gớp</a></span>
+                                            <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Chi tiết{{$item -> TENQUY}}">Đóng gớp</a></span>
                                             <div class="clearfix">
                                             </div>
                                         </div>

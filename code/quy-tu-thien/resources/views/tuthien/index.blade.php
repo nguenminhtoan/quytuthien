@@ -31,7 +31,7 @@
                                 <img class="img-fluid" src="{{$item->HINHANH}}" alt="{{$item->TENQUY}}">
                             </a>
                             <div class="card-block">
-                                <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item->TENQUY}}</a></h2>
+                                <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item->ID_TUTHIEN}}</a></h2>
                                 <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 200) !!}...</h4>
                                 <div class="metafooter">
                                     <div class="wrapfooter">
