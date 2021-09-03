@@ -28,7 +28,7 @@ and open the template in the editor.
             </button>
             <div class="container">
                 <!-- Begin Logo -->
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="/index">
                     <img src="/assets/images/logo.png" alt="Affiliates - Free Bootstrap Template" class="logo-header">
                 </a>
                 <!-- End Logo -->
@@ -40,7 +40,7 @@ and open the template in the editor.
                             <a class="nav-link" href="/index">Trang chủ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/category">Từ thiện</a>
+                            <a class="nav-link" href="/tu-thien">Từ thiện</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Gớp ý</a>
@@ -49,7 +49,7 @@ and open the template in the editor.
                             <a class="nav-link" href="/about">Chính sách</a>
                         </li>
                         <li class="nav-item">
-                            <a target="_blank" class="nav-link highlight" href="/create">gây quỹ</a>
+                            <a class="nav-link highlight" href="/gay-quy">gây quỹ</a>
                         </li>
                     </ul>
                     <!-- End Menu -->
@@ -68,7 +68,7 @@ and open the template in the editor.
                         <div class="col-sm-3">
                             <div class="footer-widget">
                                 <a href="/index">
-                                    <img src="assets/images/logo.png" alt="logo footer">
+                                    <img src="/assets/images/logo.png" alt="logo footer">
                                 </a>
                             </div>
                         </div>

@@ -8,6 +8,8 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Quyengop;
 use App\Models\Taikhoan;
+use App\Models\Nguoithamgia;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use Log;
 
@@ -23,25 +25,42 @@ class QuyengopController extends Controller
             if ($request->file('image')) {
                 $file = $request->file('image');
                 $fileName = date('ymdHis').'.'.$file->extension();
-                Storage::disk('local')->putFileAs('image', $file, $fileName);
-                $link = Storage::disk('local')->path('image/'.$fileName);
+                Storage::disk('local')->putFileAs('image/'.$request->id, $file, $fileName);
+                $link = Storage::disk('local')->path('image/'.$request->id.'/'.$fileName);
                 $response = (new TesseractOCR($link))->run();
                 $nhan = array_column(Taikhoan::getlist($request->id), "MA_TAIKHOAN");
-                $check = $this->checkInfo($response, $request->taikhoan, $request->ten, $nhan, $request->sotien, $request->thoigian);
                 $info = $this->getinfotaikhoan($response, $request->taikhoan, $nhan);
+                $check = $this->checkInfo($response, $request->taikhoan, $request->ten ?? $info[0], $nhan, $request->sotien, $request->thoigian, $info[1]);
+                if (isset($request->sdt) || isset($request->email) ){
+                    $thamgia = Nguoithamgia::checkmany($request->sdt, $request->email);
+                    if (is_null($thamgia)) {
+                        $new = new Nguoithamgia();
+                        if ($request->sdt){
+                            $new->sdt = DB::raw('MY_ENCR(\''.$request->sdt.'\')');
+                        }
+                        if ($request->email){
+                            $new->email = DB::raw('MY_ENCR(\''.$request->email.'\')');
+                        }
+                        $new->hoten = DB::raw('MY_ENCR(\''.$info[0].'\')');
+                        $new->ngaytao = date('Y/m/d H:i:s');
+                        $new->save();
+                        $thamgia = Nguoithamgia::checkmany($sdt, $email);
+                    }
+                }
                 $new = new Quyengop();
                 $new->id_tuthien = $request->id;
-                $new->taikhoan = $request->taikhoan;
-                $new->ten = $this->convert($request->ten);
-                if ($new->ten == "") {
-                    $new->ten = $info[0];
+                $new->taikhoan = DB::raw('MY_ENCR(\''.$request->taikhoan.'\')');
+                $new->ten = DB::raw('MY_ENCR(\''.$this->convert($request->ten).'\')');
+                if ($request->ten == "") {
+                    $new->ten = DB::raw('MY_ENCR(\''.$info[0].'\')');
                 }
                 $new->magiaodich = $info[1];
+                $new->id_thamgia = $thamgia ?? null;
                 $new->noidung = $info[2];
                 $new->sotien = $request->sotien;
                 $new->thoigian = $request->thoigian;
                 $new->xacthuc = $check;
-                $new->hinhanh = 'image/'.$fileName;
+                $new->hinhanh = 'image/'.$request->id.'/'.$fileName;
                 $new->ngaytao = date('Y/m/d H:i:s');
                 $new->save();
                 return redirect('tu-thien/'. $request->id);
@@ -51,9 +70,10 @@ class QuyengopController extends Controller
         }
     }
     
-    private function checkInfo($text, $taikhoan, $hoten, $nhan, $sotien, $ngay) {
+    private function checkInfo($text, $taikhoan, $hoten, $nhan, $sotien, $ngay, $magiaodich) {
         $arr = preg_split('/\r\n|\r|\n/', $text);
         $arrcheck = [false, false, false, false, false, false];
+        $arrcheck[1] = is_null($hoten);
         foreach ($arr as $row){
             if (strlen(trim($row)) == 0) continue;
             if ($arrcheck[0] == false && strpos(str_replace(' ', '', $row), $taikhoan) !== false) {
@@ -81,7 +101,7 @@ class QuyengopController extends Controller
                 $arrcheck[4] = ($tu == $den);
             }
         }
-        $arrcheck[5] = Quyengop::checkmany($taikhoan, $this->convert($hoten), $sotien, $ngay);
+        $arrcheck[5] = Quyengop::checkmany($taikhoan, $this->convert($hoten), $sotien, $ngay, $magiaodich);
         return $arrcheck[0] && $arrcheck[1] && $arrcheck[2] && $arrcheck[3] && $arrcheck[4] && $arrcheck[5];
     }
     
