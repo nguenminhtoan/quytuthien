@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Quyengop extends FormRequest
+class QuyengopForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class Quyengop extends FormRequest
     {
         return [
             'taikhoan' => 'required|regex:/^[0-9]*$/i|min:6|max:15',
-            'ten' => 'required|max:255',
+            'ten' => 'max:255',
             'sotien' => 'required|numeric',
             'thoigian' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,tiff,svg|max:1024'

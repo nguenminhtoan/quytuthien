@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tuthien;
-use thiagoalessio\TesseractOCR\TesseractOCR;
-use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class HomeController extends Controller

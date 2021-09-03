@@ -69,7 +69,7 @@
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                <label>Chủ sở hữu <span class="text-danger text-center">*</span></label>
+                                <label>Chủ sở hữu</label>
                                 <input class="form-control" type="text" name="ten" placeholder="Họ tên" value="{{old('ten')}}">
                                 @if($errors->first('ten'))
                                 <small id="emailHelp" class="form-text text-danger">{{$errors->first('ten')}}</small>
@@ -95,10 +95,11 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label>Chứng từ <span class="text-danger text-center">*</span></label>
-                                <input class="form-control" type="file" name="image" accept="image/jpeg,png,jpg,gif,tiff,svg" value="{{old('image')}}">
+                                <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
                                 @if($errors->first('image'))
                                 <small id="emailHelp" class="form-text text-danger">{{$errors->first('image')}}</small>
                                 @endif
+                                <small id="emailHelp" class="form-text text-small">Ảnh chụp màn hình chi tiết chuyển khoản hoặc ảnh chụp giấp tờ chuyển khoản</small>
                             </div>
                         </div>
                         <a class="btn btn-info" href="/tu-thien/{{$id}}">Trở lại</a>
@@ -113,7 +114,7 @@
                     </div>
                     <div class="col-md-10">
                         <a target="_blank" class="link-dark" href="#">Nhóm phát triển</a>
-                        <span class="author-description">Thông tin bạn cung cấp được chúng tôi sử dụng với mục đích thống kê các khoản đóng gớp tạo tính minh bạch sao này</span>
+                        <span class="author-description">Thông tin bạn cung cấp được chúng tôi sử dụng với mục đích thống kê các khoản đóng gớp tạo tính minh bạch, Thông tin tài khoản và chủ sở hữu sẽ được bảo mật tuyệt đối</span>
                     </div>
                 </div>
                 <!-- Begin Comments

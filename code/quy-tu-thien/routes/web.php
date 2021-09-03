@@ -18,3 +18,4 @@ Route::get('/index', 'HomeController@index');
 Route::get('/quyen-gop/{id}', 'QuyengopController@index');
 Route::post('/quyen-gop/{id}', 'QuyengopController@create');
 Route::get('/tu-thien/{id}', 'QuyengopController@index');
+Route::get('/gay-quy', 'GayquyController@index');

@@ -14,11 +14,11 @@ class Tuthien extends Model
     public static function getlist()
     {
         $list = Tuthien::select("*")
-                    ->join(DB::raw("(SELECT 
+                    ->leftJoin(DB::raw("(SELECT 
                         SUM(SOTIEN) AS SOTIEN,
                             COUNT(ID_QUYENGOP) AS SONGUOI,
                             ID_TUTHIEN
-                        FROM quyengop GROUP BY ID_TUTHIEN) AS A"), 
+                        FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
                 ->where('xacthuc', true)
                 ->get();
@@ -28,11 +28,11 @@ class Tuthien extends Model
     public static function getlisthot()
     {
         $list = Tuthien::select("*")
-                    ->join(DB::raw("(SELECT 
+                    ->leftJoin(DB::raw("(SELECT 
                         SUM(SOTIEN) AS SOTIEN,
                             COUNT(ID_QUYENGOP) AS SONGUOI,
                             ID_TUTHIEN
-                        FROM quyengop GROUP BY ID_TUTHIEN) AS A"), 
+                        FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
                 ->where('xacthuc', true)
                 ->where('batdau' , '>', date('Y-m-d'))
