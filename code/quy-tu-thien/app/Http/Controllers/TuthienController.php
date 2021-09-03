@@ -13,7 +13,7 @@ class TuthienController extends Controller
     }
     
     public function show($id){
-        return view('tuthien.index');
+        return view('tuthien.show');
     }
 
     public function create() {
