@@ -10,6 +10,7 @@ class Tuthien extends Model
 {
     use HasFactory;
     protected $table = "tuthien";
+    public $timestamps = false; 
 
     public static function getlist()
     {
@@ -24,8 +25,8 @@ class Tuthien extends Model
                 ->get();
         return $list;
     }
-    
-    public static function getlisthot()
+
+        public static function getlisthot()
     {
         $list = Tuthien::select("*")
                     ->leftJoin(DB::raw("(SELECT 
