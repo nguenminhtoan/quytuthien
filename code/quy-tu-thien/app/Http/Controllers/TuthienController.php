@@ -20,7 +20,8 @@ class TuthienController extends Controller
     }
     
     public function show($id){
-        return view('tuthien.show');
+        $array = Tuthien::getdetail($id);
+        return view('tuthien.show',['array' => $array]);
     }
 
     public function create() {

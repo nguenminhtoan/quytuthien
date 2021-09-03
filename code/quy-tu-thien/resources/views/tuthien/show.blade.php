@@ -10,38 +10,38 @@
             <div class="col-sm-4 sp-hidden">
                 <div class="sidebar">
                     <div class="sidebar-section">
-                        <h5><span>Đàm Vĩnh Hưng</span></h5>
+                        <h5><span>{{$array->HOTEN}}</span></h5>
 
-                        <ul style="list-none;">
+                        <ul style="list-none">
                             <li>
                                 <div class="meta-footer-thumb">
-                                    <img class="author-thumb-sigin" src="https://www.gravatar.com/avatar/b1cc14991db7a456fcd761680bbc8f81?s=250&amp;d=mm&amp;r=x" alt="John">
+                                    <img class="author-thumb-sigin" src="https://www.gravatar.com/avatar/b1cc14991db7a456fcd761680bbc8f81?s=250&amp;d=mm&amp;r=x" alt="{{$array -> HOTEN}}">
                                 </div>
                             </li>
-                            <li>Được quyên gớp: <a href="" class="price">21,000,000,000đ</a></li>
-                            <li>Người tham gia: 3,000</li>
-                            <li>Tiếp nhận: 2021/01/01 đến 2021/10/10</li>
+                            <li>Được quyên gớp: <a href="" class="price">{{number_format($array -> TSOTIEN)."đ"}}</a></li>
+                            <li>Người tham gia: {{number_format($array -> SONGUOI)}}</li>
+                            <li>Tiếp nhận: {{date("Y/m/d" ,strtotime($array -> BATDAU))}} đến {{date("Y/m/d" ,strtotime($array -> KETTHUC))}}</li>
                             <li>
                                 Tài khoản tiếp nhận: 
                                 <ul>
-                                    <li>Ngân hàng: TP Bank</li>
-                                    <li>Số TK: 01280080001 </li>
-                                    <li>Chủ sở hữu: Đàm Vĩnh Hưng</li>
+                                    <li>Ngân hàng: {{$array -> NGANHANG}}</li>
+                                    <li>Số TK: {{$array -> MA_TAIKHOAN}} </li>
+                                    <li>Chủ sở hữu: </li>
                                 </ul>
                             </li>
-                            <li>Điện thoại: 0987654321</li>
-                            <li>Địa chỉ: TP. Hồ Chí Minh</li>
-                            <li>Ghi chú: Ca sỉ</li>
+                            <li>Điện thoại: {{$array -> SDT}}</li>
+                            <li>Địa chỉ: {{$array -> DIACHI}}</li>
+                            <li>Ghi chú: {{$array -> GHICHU}}</li>
                         </ul>
                         <button class="btn btn-primary mb-2">Sao kê</button>
                         <button class="btn btn-success mb-2">Đóng gớp</button>
                     </div>
                     <div class="sidebar-section">
                         <h5><span>Hoạt động cứu trợ</span></h5>
-                        <ul style="list-none;">
-                            <li>Khoản chi: <a href="" class="price">21,000,000,000đ</a></li>
+                        <ul style="list-none">
+                            <li>Khoản chi: <a href="" class="price">{{number_format($array -> TSOTIEN)."đ"}}</a></li>
                             <li>Đã cứu trợ: 3,000</li>
-                            <li>Thời gian: 2021/01/01 đến 2021/10/10</li>
+                            <li>Thời gian: {{date("Y/m/d" ,strtotime($array -> BD))}} đến {{date("Y/m/d" ,strtotime($array -> KT))}}</li>
                         </ul>
                         <button class="btn btn-primary">Chi tiết hoạt động</button>
                     </div>
@@ -53,30 +53,14 @@
                     <!-- Post Categories -->
                     <!-- End Categories -->
                     <!-- Post Title -->
-                    <h1 class="posttitle">Quyên góp cho bà con vùng lũ</h1>
+                    <h1 class="posttitle">{{$array -> TEN}}</h1>
                 </div>
                 <!-- Post Featured Image -->
                 <img class="featured-image img-fluid" src="assets/images/3.jpg" alt="">
                 <!-- End Featured Image -->
                 <!-- Post Content -->
                 <div class="article-post">
-                    <p>
-                        The first mass-produced book to deviate from a rectilinear format, at least in the United States, is thought to be this 1863 edition of Red Riding Hood, cut into the shape of the protagonist herself with the troublesome wolf curled at her feet. Produced by the Boston-based publisher Louis Prang, this is the first in their “Doll Series”, a set of five “die-cut” books, known also as shape books — the other titles being Robinson Crusoe, Goody Two-Shoes (also written by Red Riding Hood author Lydia Very), Cinderella, and King Winter.
-                    </p>
-                    <p>
-                        As for this particular rendition of Charles Perrault’s classic tale, the text and design is by Lydia Very (1823-1901), sister of Transcendentalist poet Jones Very. The gruesome ending of the original — which sees Little Red Riding Hood being gobbled up as well as her grandmother — is avoided here, the gore giving way to the less bloody aims of the morality tale, and the lesson that one should not disobey one’s mother.
-                    </p>
-                    <blockquote>
-                        <p>
-                            It would seem the claim could also extend to die cut books in general, as we can’t find anything sooner, but do let us know in the comments if you have further light to shed on this! Such books are, of course, still popular in children’s publishing today, though the die cutting is not now limited to mere outlines, as evidenced in a beautiful 2014 version of the same Little Red Riding Hood story.
-                        </p>
-                    </blockquote>
-                    <p>
-                        An 1868 Prang catalogue would later claim that such “books in the shape of a regular paper Doll… originated with us”.
-                    </p>
-                    <p>
-                        The die cut has also been employed in the non-juvenile sphere as well, a recent example being Jonathan Safran Foer’s ambitious Tree of Codes.
-                    </p>
+                    {{$array -> MOTA}}
                     <div class="clearfix">
                     </div>
                 </div>
@@ -139,7 +123,7 @@
                         <div class="sidebar-section">
                             <h5><span>Đàm Vĩnh Hưng</span></h5>
 
-                            <ul style="list-none;">
+                            <ul style="list-none">
                                 <li>
                                     <div class="meta-footer-thumb">
                                         <img class="author-thumb-sigin" src="https://www.gravatar.com/avatar/b1cc14991db7a456fcd761680bbc8f81?s=250&amp;d=mm&amp;r=x" alt="John">
@@ -165,7 +149,7 @@
                         </div>
                         <div class="sidebar-section">
                             <h5><span>Hoạt động cứu trợ</span></h5>
-                            <ul style="list-none;">
+                            <ul style="list-none">
                                 <li>Khoản chi: <a href="" class="price">21,000,000,000đ</a></li>
                                 <li>Đã cứu trợ: 3,000</li>
                                 <li>Thời gian: 2021/01/01 đến 2021/10/10</li>
