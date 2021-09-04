@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Taikhoan;
 
 class Tuthien extends Model
 {
@@ -12,47 +13,85 @@ class Tuthien extends Model
     protected $table = "tuthien";
     public $timestamps = false; 
 
-    public static function getlist()
+    public static function getlist($id = null)
     {
-        $list = Tuthien::select("tuthien.*", "SONGUOI", 'SOTIEN')
+        $list = Tuthien::select("tuthien.*", "SONGUOI", 'SOTIEN', DB::raw('nguoidung.HINHANH as PATH'))
+                    ->join("nguoidung", function($sql){
+                        $sql->on("nguoidung.ID_NGUOIDUNG", "tuthien.ID_NGUOIDUNG")
+                            ->where("nguoidung.xacthuc", true);
+                    })
                     ->leftJoin(DB::raw("(SELECT 
                         SUM(SOTIEN) AS SOTIEN,
                             COUNT(ID_QUYENGOP) AS SONGUOI,
                             ID_TUTHIEN
                         FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
-                ->where('xacthuc', true)
-                ->get();
+                ->where('tuthien.xacthuc', true)
+                ->where(function($sql) use ($id) {
+                    if($id) {
+                        $sql->where("nguoidung.ID_NGUOIDUNG", $id);
+                    }
+                })
+                ->paginate(10);
         return $list;
     }
     
     public static function getdetail($id_tuthien) {
-        $array = Tuthien::select("tuthien.*","nguoidung.HOTEN", "A.TSOTIEN", "A.TSONGUOI", "hoatdong.TEN", "hoatdong.BATDAU as BD", "hoatdong.KETTHUC as KT", "chitiet.SOTIEN", "tuthien.MOTA")
-                ->leftJoin("hoatdong","tuthien.ID_TUTHIEN", "hoatdong.ID_TUTHIEN")
-                ->leftJoin("chitiet","chitiet.ID_HOATDONG", "hoatdong.ID_HOATDONG")
-                ->leftJoin("nguoidung","hoatdong.ID_NGUOIDUNG", "nguoidung.ID_NGUOIDUNG")
+        $detail = Tuthien::select(
+                    "tuthien.*",
+                    "SONGUOI",
+                    "SOTIEN", 
+                    DB::raw("MY_DECR(tuthien.SDT) as DT"),
+                    "TONGCHI",
+                    "TONGHTRO",
+                    "BATDAUHD",
+                    "KETTHUCHD",
+                    "nguoidung.HINHANH as PATH",
+                    DB::raw("MY_DECR(nguoidung.HOTEN) as HOTEN")
+                )
+                ->join("nguoidung", function($sql){
+                    $sql->on("nguoidung.ID_NGUOIDUNG", "tuthien.ID_NGUOIDUNG")
+                        ->where("nguoidung.xacthuc", true);
+                })
                 ->leftJoin(DB::raw("(SELECT 
-                        SUM(SOTIEN) AS TSOTIEN,
-                            COUNT(ID_QUYENGOP) AS TSONGUOI,
+                        SUM(SOTIEN) AS SOTIEN,
+                            COUNT(ID_QUYENGOP) AS SONGUOI,
                             ID_TUTHIEN
                         FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
-                ->leftJoin("taikhoan","taikhoan.ID_TUTHIEN","tuthien.ID_TUTHIEN") 
+                ->leftJoin(DB::raw("(SELECT 
+                            ID_TUTHIEN,
+                            SUM(SOTIEN) as TONGCHI,
+                            COUNT(hoatdong.ID_HOATDONG) as TONGHTRO,
+                            MIN(BATDAU) as BATDAUHD,
+                            MAX(KETTHUC) as KETTHUCHD
+                        FROM
+                            hoatdong
+                                JOIN
+                            chitiet ON chitiet.ID_HOATDONG = hoatdong.ID_HOATDONG
+                        GROUP BY ID_TUTHIEN) AS B"), 
+                        "B.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
+                ->where('tuthien.xacthuc', true)
                 ->where('tuthien.ID_TUTHIEN',$id_tuthien)
-                ->get();
-        return $array;
+                ->first();
+            $detail->TAIKHOAN = Taikhoan::getlist($detail->ID_TUTHIEN);
+        return $detail;
     }
 
     public static function getlisthot()
     {
-        $list = Tuthien::select("tuthien.*", "SONGUOI", 'SOTIEN')
+        $list = Tuthien::select("tuthien.*", "SONGUOI", 'SOTIEN', DB::raw('nguoidung.HINHANH as PATH'))
+                    ->join("nguoidung", function($sql){
+                        $sql->on("nguoidung.ID_NGUOIDUNG", "tuthien.ID_NGUOIDUNG")
+                            ->where("nguoidung.xacthuc", true);
+                    })
                     ->leftJoin(DB::raw("(SELECT 
                         SUM(SOTIEN) AS SOTIEN,
                             COUNT(ID_QUYENGOP) AS SONGUOI,
                             ID_TUTHIEN
                         FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
-                ->where('xacthuc', true)
+                ->where('tuthien.xacthuc', true)
                 ->where('batdau' , '>', date('Y-m-d'))
                 ->get();
         return $list;

@@ -861,8 +861,10 @@ img {max-width:100%;height: 140px;}
     content: '';
     background-color: #eee;
 }
-.pagination {
+nav.pagination {
     display: inline-block;
+}
+.pagination {
     background: #fff;
     z-index: 1;
     position: relative;

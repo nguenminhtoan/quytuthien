@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-md-5 wrapthumbnail">
                                 <a href="/tu-thien/{{$item->ID_TUTHIEN}}">
-                                    <div class="thumbnail" style="background-image:url('{{$item->HINHANH}}');">
+                                    <div class="thumbnail" style="background-image:url('{{"/storage".$item->HINHANH}}');">
                                     </div>
                                 </a>
                             </div>
@@ -33,7 +33,7 @@
                                     <div class="metafooter">
                                         <div class="wrapfooter">
                                             <span class="meta-footer-thumb">
-                                                <img class="author-thumb" src="https://www.gravatar.com/avatar/b1cc14991db7a456fcd761680bbc8f81?s=250&d=mm&r=x" alt="{{$item -> PHUTRACH}}">
+                                                <img class="author-thumb" src="{{'/storage'.$item -> PATH}}" alt="{{$item -> PHUTRACH}}">
                                             </span>
                                             <span class="author-meta">
                                                 <span class="post-name">{{$item -> PHUTRACH}}</span><br/>
@@ -70,40 +70,12 @@
                                     <div class="mc-field-group">
                                         <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Địa chỉ email">
                                     </div>
-                                    <div id="mce-responses" class="clear">
-                                        <div class="response" id="mce-error-response" style="display:none">
-                                        </div>
-                                        <div class="response" id="mce-success-response" style="display:none">
-                                        </div>
-                                    </div>
-                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                    <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                                        <input type="text" name="b_8aeb20a530e124561927d3bd8_8c3d2d214b" tabindex="-1" value="">
-                                    </div>
                                     <div class="clear">
                                         <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">Đăng ký</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <script type='text/javascript' src='https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-                        <script type='text/javascript'>(function ($) {
-                                window.fnames = new Array();
-                                window.ftypes = new Array();
-                                fnames[0] = 'EMAIL';
-                                ftypes[0] = 'email';
-                                fnames[3] = 'MMERGE3';
-                                ftypes[3] = 'text';
-                                fnames[1] = 'MMERGE1';
-                                ftypes[1] = 'text';
-                                fnames[2] = 'MMERGE2';
-                                ftypes[2] = 'text';
-                                fnames[4] = 'MMERGE4';
-                                ftypes[4] = 'text';
-                                fnames[5] = 'MMERGE5';
-                                ftypes[5] = 'text';
-                            }(jQuery));
-                            var $mcj = jQuery.noConflict(true);</script>
                         <!--End mc_embed_signup-->
                     </div>
 
@@ -119,21 +91,23 @@
                     <div class="col-md-6 grid-item">
                         <div class="card">
                             <a href="/tu-thien/{{$item->ID_TUTHIEN}}">
-                                <img class="img-fluid" src="{{$item->HINHANH}}" alt="{{$item -> TENQUY}}">
+                                <img class="img-fluid" src="{{"/storage".$item->HINHANH}}" alt="{{$item -> TENQUY}}">
                             </a>
                             <div class="card-block">
                                 <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item -> TENQUY}}</a></h2>
                                 <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 200) !!}...</h4>
+                                <h6>Được quyên gớp: {{number_format($item -> SOTIEN)."đ"}}</h6>
+                                <h6>Người tham gia: {{number_format($item -> SONGUOI)}}</h6>
                                 <div class="metafooter">
                                     <div class="wrapfooter">
                                         <span class="meta-footer-thumb">
-                                            <img class="author-thumb" src="https://www.gravatar.com/avatar/e56154546cf4be74e393c62d1ae9f9d4?s=250&d=mm&r=" alt="{{$item -> PHUTRACH}}">
+                                            <img class="author-thumb" src="{{'/storage'.$item -> PATH}}" alt="{{$item -> PHUTRACH}}">
                                         </span>
                                         <span class="author-meta">
-                                            <span class="post-name"><a target="_blank" href="#">{{$item -> PHUTRACH}}</a></span><br/>
+                                            <span class="post-name">{{$item -> PHUTRACH}}</span><br/>
                                             <span class="post-date">{{date("Y/m/d" ,strtotime($item -> BATDAU))}}</span>
                                         </span>
-                                        <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Chi tiết {{$item->TENQUY}}"><i class="fa fa-link"></i></a></span>
+                                        <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Chi tiết{{$item -> TENQUY}}">Đóng gớp</a></span>
                                         <div class="clearfix">
                                         </div>
                                     </div>
@@ -149,10 +123,11 @@
                 <div class="bottompagination">
                     <div class="navigation">
                         <nav class="pagination">
-                            <span class="page-number"> &nbsp; &nbsp; Trang 1 của 1 &nbsp; &nbsp; </span>
+                            <span class="page-number"> &nbsp; &nbsp; Trang {{$list->currentPage()}} của {{$list->lastPage()}} &nbsp; &nbsp; </span>
                         </nav>
                     </div>
                 </div>
+                {{ $list->links("paginate") }}
             </div>
         </section>
     </div>

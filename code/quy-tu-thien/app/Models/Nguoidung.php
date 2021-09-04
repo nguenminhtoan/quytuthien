@@ -27,4 +27,9 @@ class Nguoidung extends Model
         return isset($check) ? $check->ID_NGUOIDUNG : null;
     }
     
+    public static function getlist(){
+        return Nguoidung::select("ID_NGUOIDUNG", DB::raw("MY_DECR(HOTEN) as HOTEN"))
+                ->where("xacthuc",true)->get();
+    }
+    
 }

@@ -43,10 +43,10 @@ and open the template in the editor.
                             <a class="nav-link" href="/tu-thien">Từ thiện</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contact">Gớp ý</a>
+                            <a class="nav-link" href="/gop-y">Gớp ý</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about">Chính sách</a>
+                            <a class="nav-link" href="/chinh-sach">Chính sách</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link highlight" href="/gay-quy">gây quỹ</a>

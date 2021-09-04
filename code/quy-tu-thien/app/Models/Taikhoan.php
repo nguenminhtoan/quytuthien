@@ -14,7 +14,11 @@ class Taikhoan extends Model
 
 
     public static function getlist($tuthien) {
-        $list = Taikhoan::select(DB::raw("MY_DECR(MA_TAIKHOAN) as MA_TAIKHOAN"))->where('id_tuthien', $tuthien)
+        $list = Taikhoan::select(
+                DB::raw("MY_DECR(MA_TAIKHOAN) as MA_TAIKHOAN"),
+                DB::raw("MY_DECR(HOTEN) as HOTEN"),
+                DB::raw("MY_DECR(NGANHANG) as NGANHANG")
+                )->where('id_tuthien', $tuthien)
                 ->get()
                 ->toArray();
         return $list;

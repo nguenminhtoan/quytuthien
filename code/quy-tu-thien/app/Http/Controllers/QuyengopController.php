@@ -8,6 +8,7 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Quyengop;
 use App\Models\Taikhoan;
+use App\Models\Tuthien;
 use App\Models\Nguoithamgia;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -17,7 +18,8 @@ class QuyengopController extends Controller
 {
     //
     public function index($id){
-        return view("quyengop.index", ["id" => $id]);
+        $detail = Tuthien::getdetail($id);
+        return view("quyengop.index", ["id" => $id, 'detail' => $detail]);
     }
     
     public function create(QuyengopForm $request){

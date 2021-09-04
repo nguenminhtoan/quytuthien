@@ -10,6 +10,15 @@
             <div class="col-sm-4 sp-hidden">
                 <div class="sidebar">
                     <div class="sidebar-section">
+                        <h5><span>Hoạt động cứu trợ</span></h5>
+                        <ul style="list-none">
+                            <li>Khoản chi: <a href="" class="price">{{number_format($detail -> TONGCHI)."đ"}}</a></li>
+                            <li>Đã cứu trợ: {{ number_format($detail->TONGHTRO) }}</li>
+                            <li>Thời gian: {{date("Y/m/d" ,strtotime($detail -> BATDAUHD))}} đến {{date("Y/m/d" ,strtotime($detail -> KETTHUCHD))}}</li>
+                        </ul>
+                        <a href="/hoat-dong/{{$detail -> ID_TUTHIEN}}" class="btn btn-primary">Chi tiết hoạt động</a>
+                    </div>
+                    <div class="sidebar-section">
                         <h5><span>{{$detail->HOTEN}}</span></h5>
 
                         <ul style="list-none">
@@ -39,15 +48,7 @@
                         <a href="/sao-ke/{{$detail -> ID_TUTHIEN}}" class="btn btn-primary mb-2">Sao kê</a>
                         <a href="/quyen-gop/{{$detail -> ID_TUTHIEN}}" class="btn btn-success mb-2">Đóng gớp</a>
                     </div>
-                    <div class="sidebar-section">
-                        <h5><span>Hoạt động cứu trợ</span></h5>
-                        <ul style="list-none">
-                            <li>Khoản chi: <a href="" class="price">{{number_format($detail -> TONGCHI)."đ"}}</a></li>
-                            <li>Đã cứu trợ: {{ number_format($detail->TONGHTRO) }}</li>
-                            <li>Thời gian: {{date("Y/m/d" ,strtotime($detail -> BATDAUHD))}} đến {{date("Y/m/d" ,strtotime($detail -> KETTHUCHD))}}</li>
-                        </ul>
-                        <a href="/hoat-dong/{{$detail -> ID_TUTHIEN}}" class="btn btn-primary">Chi tiết hoạt động</a>
-                    </div>
+                    
                 </div>
             </div>
             <!-- Sidebar -->
@@ -56,22 +57,47 @@
                     <!-- Post Categories -->
                     <!-- End Categories -->
                     <!-- Post Title -->
-                    <h1 class="posttitle">{{$detail -> TENQUY}}</h1>
+                    <h1 class="posttitle">{{$hoatdong -> TEN}}</h1>
+                    <small>
+                        <span class="post-date">Bắt đầu <time class="post-date" datetime="{{$detail -> BATDAU}}">{{date('Y/m/d', strtotime($detail -> BATDAU))}}</time></span>
+                    </small>
+                    <small>
+                        <span class="post-date"> đến <time class="post-date" datetime="{{$detail -> KETTHUC}}">{{date('Y/m/d', strtotime($detail -> KETTHUC))}}</time></span>
+                    </small>
                 </div>
                 <!-- Post Featured Image -->
-                <img class="featured-image img-fluid" src="{{"/storage".$detail -> HINHANH}}" alt="">
+                @foreach($hoatdong->HINHANH as $row)
+                <img src="{{'/storage'.$row->PATH}}" />
+                @endforeach
                 <!-- End Featured Image -->
                 <!-- Post Content -->
                 <div class="article-post">
+                    {!! $hoatdong->MOTA !!}
+                    <table class="table">
+                        <thead>
+                            <th>Tên</th>
+                            <th>Chứng từ</th>
+                            <th>Số tiền</th>
+                        </thead>
+                        <tbody>
+                        @foreach($hoatdong->CHITIET as $row)
+                        <tr>
+                            <td>{{$row->TEN}}</td>
+                            <td><img src="{{'/storage'.$row->CHUNGTU}}"/></td>
+                            <td>{{number_format($row->SOTIEN)}}đ</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <th colspan="2" class="text-right text-bold">Tổng tiền</th>
+                            <th>{{number_format($hoatdong->CHITIET->sum("SOTIEN"))}}đ</th>
+                        </tr>
+                        </tbody>
+                    </table>
                     {!!$detail -> MOTA!!}
                     <div class="clearfix">
                     </div>
                 </div>
                 <!-- Post Date -->
-                    <small>
-                        <span class="post-date"><time class="post-date" datetime="{{$detail -> NGAYTAO}}">{{date('Y/m/d', strtotime($detail -> NGAYTAO))}}</time></span>
-                    </small>
-                </p>
                 <!-- Prev/Next -->
                 <div class="row PageNavigation mt-4 prevnextlinks">
                     <div class="col-md-6 rightborder pl-0">
@@ -92,8 +118,7 @@
                         <span class="author-description">Author of Affiliates, a template available for WordPress, HTML, Ghost and Jekyll. You are currently previewing Jekyll template demo.</span>
                     </div>
                 </div>
-                <!-- Begin Comments
-================================================== -->
+                <!-- Begin Comments ================================================== -->
                 <section>
                     <div id="comments">
                         <section class="disqus">

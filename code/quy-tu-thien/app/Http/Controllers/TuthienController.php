@@ -16,14 +16,21 @@ class TuthienController extends Controller
     
     public function index(){
         $list = Tuthien::getlist();
-        return view('tuthien.index', ['list' => $list]);
+        $user = Nguoidung::getlist();
+        return view('tuthien.index', ['list' => $list, 'user' => $user]);
     }
     
     public function show($id){
-        $array = Tuthien::getdetail($id);
-        return view('tuthien.show',['array' => $array]);
+        $detail = Tuthien::getdetail($id);
+        return view('tuthien.show',['detail' => $detail]);
     }
 
+    public function search($id){
+        $list = Tuthien::getlist($id);
+        $user = Nguoidung::getlist();
+        return view('tuthien.index', ['list' => $list, 'user' => $user]);
+    }
+    
     public function create() {
         return view('tuthien.create');
     }
@@ -57,7 +64,7 @@ class TuthienController extends Controller
             if (isset($id_tuthien)){
                 if (is_null($check)) {
                     $user = new Nguoidung();
-                    $user->hoten = $request->hoten;
+                    $user->hoten = DB::raw("MY_ENCR('".$request->phutrach."')");
                     $user->hinhanh = '/image/user/user.jpg';
                     if ($request->email) {
                         $user->email = DB::raw("MY_ENCR('".$request->email."')");

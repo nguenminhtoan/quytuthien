@@ -24,4 +24,15 @@ class Quyengop extends Model
                 ->first();
         return is_null($check);
     }
+    
+    public static function getlist($id, $offset = 50){
+        $list = Quyengop::select(
+                    DB::raw("MY_DECR(TAIKHOAN) as TAIKHOAN"),
+                    DB::raw("MY_DECR(TEN) as TEN"),
+                    "SOTIEN"
+                )
+                ->where('id_tuthien', $id)
+                ->paginate($offset);
+        return $list;
+    }
 }

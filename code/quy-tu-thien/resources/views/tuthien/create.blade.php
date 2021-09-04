@@ -28,7 +28,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label>Hình ảnh dại diện <span class="text-danger text-center">*</span></label>
-                            <input class="form-control" type="file" name="image">
+                            <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" >
                             @if($errors->first('image'))
                                 <small id="emailHelp" class="form-text text-danger">{{$errors->first('image')}}</small>
                             @endif
