@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
-class Nguoidung extends Model
+class Nguoidung extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
     protected $table = 'nguoidung';
     public $timestamps = false;
-    
+    public $primaryKey = 'ID_NGUOIDUNG';
     
     public static function checkmany($sdt, $email) {
         $check = Nguoidung::where('xacthuc', true)
@@ -30,6 +31,16 @@ class Nguoidung extends Model
     public static function getlist(){
         return Nguoidung::select("ID_NGUOIDUNG", DB::raw("MY_DECR(HOTEN) as HOTEN"))
                 ->where("xacthuc",true)->get();
+    }
+    
+    public static function authcheck($taikhoan){
+        $check = Nguoidung::where(function($sql) use ($taikhoan){
+            if($taikhoan){
+                $sql->where("id_nguoidung",$taikhoan)
+                    ->whereOr("email",$taikhoan);
+            }
+        })->first();
+        return $check;
     }
     
 }
