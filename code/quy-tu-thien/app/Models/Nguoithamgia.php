@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Nguoithamgia extends Model
 {
     use HasFactory;
     protected $table = 'nguoithamgia';
-    
+    public $timestamps = false;
+
+
     public static function checkmany($sdt, $email) {
         $check = Nguoithamgia::where(function($sql) use ($sdt, $email){
             if (isset($sdt)){

@@ -1,11 +1,32 @@
 @extends('layouts.layout_home')
 @section('content')
-<section class="intro">
-    <div class="wrapintro">
-        <h1>Quỹ từ thiện công khai</h1>
-        <h2 class="lead">Công khai trong từng hoạt động</h2>
-    </div>
-</section>
+<section class="slider_section">
+     <div id="main_slider" class="carousel slide banner-main" data-ride="carousel">
+
+        <div class="carousel-inner">
+           <div class="carousel-item active">
+               <img class="first-slide" src="/assets/images/banner1.jpg" alt="First slide">
+              <div class="container row">
+                 <div class="carousel-caption relative">
+                    <h1>Sự Thật<br> <strong class="black_bold"> Có phải</strong><br>
+                       <strong class="yellow_bold">97 tỷ </strong></h1>
+                    <p>Để làm sáng tỏ xự việc. Các bạn ai đã đóng gớp cho Hưng<br>
+                       Xin hãy khai báo đóng gớp trong hoạt động của Hưng </p>
+                    <a  href="#">Kê khai đóng gớp</a>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+        <i class='fa fa-angle-right'></i>
+        </a>
+        <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+        <i class='fa fa-angle-left'></i>
+        </a>
+
+     </div>
+
+  </section>
 <div class="container">
     <div class="main-content">
         <section class="featured-posts">
@@ -27,9 +48,9 @@
                             <div class="col-md-7">
                                 <div class="card-block">
                                     <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item -> TENQUY}}</a></h2>
-                                    <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 230) !!}...</h4>
                                     <h6>Được quyên gớp: {{number_format($item -> SOTIEN)."đ"}}</h6>
                                     <h6>Người tham gia: {{number_format($item -> SONGUOI)}}</h6>
+                                    <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 230) !!}...</h4>
                                     <div class="metafooter">
                                         <div class="wrapfooter">
                                             <span class="meta-footer-thumb">
@@ -88,18 +109,11 @@
                 <div class="masonrygrid row listrecent">
                     <!-- begin post -->
                     @foreach ($list as $item)
-                    <div class="col-md-6 grid-item">
+                    <div class="col-md-12 grid-item">
                         <div class="card">
-                            <a href="/tu-thien/{{$item->ID_TUTHIEN}}">
-                                <img class="img-fluid" src="{{"/storage".$item->HINHANH}}" alt="{{$item -> TENQUY}}">
-                            </a>
                             <div class="card-block">
-                                <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item -> TENQUY}}</a></h2>
-                                <h4 class="card-text">{!! substr(strip_tags($item->MOTA), 0, 200) !!}...</h4>
-                                <h6>Được quyên gớp: {{number_format($item -> SOTIEN)."đ"}}</h6>
-                                <h6>Người tham gia: {{number_format($item -> SONGUOI)}}</h6>
-                                <div class="metafooter">
-                                    <div class="wrapfooter">
+                                <div class="metaheader">
+                                    <div class="wrapheader">
                                         <span class="meta-footer-thumb">
                                             <img class="author-thumb" src="{{'/storage'.$item -> PATH}}" alt="{{$item -> PHUTRACH}}">
                                         </span>
@@ -110,6 +124,30 @@
                                         <span class="post-read-more"><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}" title="Chi tiết{{$item -> TENQUY}}">Đóng gớp</a></span>
                                         <div class="clearfix">
                                         </div>
+                                    </div>
+                                </div>
+                                <h2 class="card-title"><a href="/tu-thien/{{$item->ID_TUTHIEN}}">{{$item -> TENQUY}}</a></h2>
+                                <h4 class="card-text">
+                                    {!! substr( strip_tags($item->MOTA), 0, 700) !!}{{ strlen($item->MOTA) > 750 ? "..." : "" }} 
+                                    <a href="/tu-thien/{{$item->ID_TUTHIEN}}" >Chi tiết</a>
+                                </h4>
+                                <h6>Số tiền được quyên gớp: {{number_format($item -> SOTIEN)."đ"}}</h6>
+                                <h6>Người tham gia: {{number_format($item -> SONGUOI)}}</h6>
+                            </div>
+                            <div class="img-card">
+                                <a href="/tu-thien/{{$item->ID_TUTHIEN}}">
+                                    <img class="img-fluid" src="{{"/storage".$item->HINHANH}}" alt="{{$item -> TENQUY}}">
+                                </a>
+                            </div>
+                                
+                            <div class="card-block pb-2">
+                                <div class="metafooter">
+                                    <div class="wrapfooter mt-0">
+                                        <ul class="footer-icon">
+                                            <li><a href="/hoat-dong/{{$item -> ID_TUTHIEN}}"><i class="fa fa-instagram"></i>Hoạt động</a></li>
+                                            <li><a href="/quyen-gop/{{$item -> ID_TUTHIEN}}"><i class="fa fa-user"></i>Tham gia</a></li>
+                                            <li><a href=""><i class="fa fa-share"></i>Chia sẻ</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

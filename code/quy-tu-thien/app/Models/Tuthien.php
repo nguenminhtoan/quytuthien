@@ -13,7 +13,7 @@ class Tuthien extends Model
     protected $table = "tuthien";
     public $timestamps = false; 
 
-    public static function getlist($id = null)
+    public static function getlist($id = null, $xacthuc = true, $offset = 10)
     {
         $list = Tuthien::select("tuthien.*", "SONGUOI", 'SOTIEN', DB::raw('nguoidung.HINHANH as PATH'))
                     ->join("nguoidung", function($sql){
@@ -26,13 +26,17 @@ class Tuthien extends Model
                             ID_TUTHIEN
                         FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
-                ->where('tuthien.xacthuc', true)
+                ->where(function($sql) use ($xacthuc) {
+                    if($xacthuc) {
+                        $sql->where('tuthien.xacthuc', $xacthuc);
+                    }
+                })
                 ->where(function($sql) use ($id) {
                     if($id) {
                         $sql->where("nguoidung.ID_NGUOIDUNG", $id);
                     }
                 })
-                ->paginate(10);
+                ->paginate($offset);
         return $list;
     }
     
@@ -92,7 +96,8 @@ class Tuthien extends Model
                         FROM quyengop where xacthuc = 1 GROUP BY ID_TUTHIEN) AS A"), 
                         "A.ID_TUTHIEN", "tuthien.ID_TUTHIEN")
                 ->where('tuthien.xacthuc', true)
-                ->where('batdau' , '>', date('Y-m-d'))
+                ->orderBy("LUOCXEM", "desc")
+                ->limit(2)
                 ->get();
         return $list;
     }

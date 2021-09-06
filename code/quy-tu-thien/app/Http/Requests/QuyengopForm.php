@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class QuyengopForm extends FormRequest
 {
@@ -28,7 +29,8 @@ class QuyengopForm extends FormRequest
             'ten' => 'max:255',
             'sotien' => 'required|numeric',
             'thoigian' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,tiff,svg|max:1024'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,tiff,svg|max:1024',
+            'sdt' => new RequiredIf($this->sotien > 2000000),
         ];
     }
     
@@ -53,7 +55,8 @@ class QuyengopForm extends FormRequest
             'max'  => ':attribute phải có số ký tự nhỏ hơn bằng :max',
             'mimes'  => ':attribute là file ảnh có định đạng jpeg,png,jpg,gif,tiff,svg',
             'image.max' => ':attribute có kích thước phải nhỏ hơn bằng 1Mb',
-            'image' => ':attribute có định dạng file ảnh'
+            'image' => ':attribute có định dạng file ảnh',
+            'sdt.required' => "Vui lòng cung cấp thêm số điện thoại hoặc email",
         ];
     }
 }

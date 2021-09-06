@@ -24,6 +24,7 @@ class QuyengopController extends Controller
     
     public function create(QuyengopForm $request){
         try {
+            
             if ($request->file('image')) {
                 $file = $request->file('image');
                 $fileName = date('ymdHis').'.'.$file->extension();
@@ -46,13 +47,14 @@ class QuyengopController extends Controller
                         $new->hoten = DB::raw('MY_ENCR(\''.$info[0].'\')');
                         $new->ngaytao = date('Y/m/d H:i:s');
                         $new->save();
-                        $thamgia = Nguoithamgia::checkmany($sdt, $email);
+                        $thamgia = $new->id;
                     }
                 }
                 $new = new Quyengop();
                 $new->id_tuthien = $request->id;
                 $new->taikhoan = DB::raw('MY_ENCR(\''.$request->taikhoan.'\')');
                 $new->ten = DB::raw('MY_ENCR(\''.$this->convert($request->ten).'\')');
+                $new->nganhang = DB::raw('MY_ENCR(\''.$request->nganhang.'\')');
                 if ($request->ten == "") {
                     $new->ten = DB::raw('MY_ENCR(\''.$info[0].'\')');
                 }
@@ -65,11 +67,16 @@ class QuyengopController extends Controller
                 $new->hinhanh = 'image/'.$request->id.'/'.$fileName;
                 $new->ngaytao = date('Y/m/d H:i:s');
                 $new->save();
-                return redirect('tu-thien/'. $request->id);
+                
+                $detail = Tuthien::getdetail($request->id);
+                return view("quyengop.complete", ['xacnhan' => $check, 'detail' => $detail]);
             }
         } catch (Exception $e) {
             Log::error("code". $e->getCode(). "errors" . $e->getMessage());
         }
+    }
+    
+    public function complete(){
     }
     
     private function checkInfo($text, $taikhoan, $hoten, $nhan, $sotien, $ngay, $magiaodich) {
@@ -81,7 +88,7 @@ class QuyengopController extends Controller
             if ($arrcheck[0] == false && strpos(str_replace(' ', '', $row), $taikhoan) !== false) {
                 $arrcheck[0] = true;
             }
-            if ($arrcheck[1] == false && isset($hoten) && strpos($this->convert($row), $this->convert($hoten)) !== false) {
+            if ($arrcheck[1] == false && $hoten != "" && strpos($this->convert($row), $this->convert($hoten)) !== false) {
                 $arrcheck[1] = true;
             }
             if ($arrcheck[2] == false && strpos(implode(", ",$nhan), str_replace(' ', '', $row)) !== false) {

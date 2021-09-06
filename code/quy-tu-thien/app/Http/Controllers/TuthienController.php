@@ -96,7 +96,8 @@ class TuthienController extends Controller
 
                 if ($file) {
                     $fileName = date('ymdHis').'.'.$file->extension();
-                    Storage::disk('public')->putFileAs('tuthien/'.$id_tuthien, $file, $fileName);
+//                    $file->move(public_path('/storage/tuthien/'.$id_tuthien), $fileName);
+                    Storage::disk('public')->putFileAs('/', $file, $fileName);
                     Tuthien::where('ID_TUTHIEN', $id_tuthien)
                         ->update([
                             'hinhanh' => '/tuthien/'.$id_tuthien.'/'.$fileName, 

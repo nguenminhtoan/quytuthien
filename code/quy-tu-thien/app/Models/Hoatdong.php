@@ -11,22 +11,22 @@ use App\Models\Chitiet;
 class Hoatdong extends Model
 {
     use HasFactory;
-    protected $table = "hoatdong";
+    protected $table = "HOATDONG";
     
     public static function getlist($id){
         $list = Hoatdong::select(
-                    "hoatdong.*", 
+                    "HOATDONG.*", 
                     "SOTIEN",
                     "ha.PATH",
                     DB::raw("MY_DECR(nguoidung.HOTEN) as HOTEN")
                 )
-                ->join("nguoidung", "nguoidung.id_nguoidung", "hoatdong.id_nguoidung")
+                ->join("nguoidung", "nguoidung.id_nguoidung", "HOATDONG.id_nguoidung")
                 ->join(DB::raw("(SELECT 
                             SUM(SOTIEN) as SOTIEN, ID_HOATDONG
                         FROM
                             chitiet
                         GROUP BY ID_HOATDONG) as ct"), 
-                        'ct.ID_HOATDONG', 'hoatdong.id_hoatdong')
+                        'ct.ID_HOATDONG', 'HOATDONG.id_hoatdong')
                 ->leftJoin(DB::raw("(SELECT 
                             MAX(PATH) as PATH, ID_HOATDONG
                         FROM

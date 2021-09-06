@@ -13,8 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::get('/login', 'AdminLoginController@index');
+    Route::post('/login', 'AdminLoginController@auth');
+    Route::get('/tuthien', 'AdminTuthienController@all');
+    Route::get('/tuthien/{status}', 'AdminTuthienController@index');
+    
+});
+    
+Route::get('/', 'HomeController@demo');
+
+Route::post('/', 'HomeController@annotateImage');
+
+
 Route::get('/index', 'HomeController@index');
+Route::get('/quyen-gop/complete', 'QuyengopController@complete');
 Route::get('/quyen-gop/{id}', 'QuyengopController@index');
 Route::post('/quyen-gop/{id}', 'QuyengopController@create');
 Route::get('/gay-quy', 'TuthienController@create');

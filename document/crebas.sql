@@ -103,14 +103,14 @@ create table NGUOIDUNG
 /*==============================================================*/
 create table NGUOITHAMGIA
 (
-   ID_THAMGIA           int not null auto_increment,
+   MA_THAMGIA           int not null auto_increment,
    HOTEN                varchar(500),
    SDT                  varchar(500),
    EMAIL                varchar(500),
    GHICHU               text,
    HINHANH              varchar(600),
    NGAYTAO              datetime,
-   primary key (ID_THAMGIA)
+   primary key (MA_THAMGIA)
 );
 
 /*==============================================================*/
@@ -119,7 +119,7 @@ create table NGUOITHAMGIA
 create table QUYENGOP
 (
    ID_QUYENGOP          int not null auto_increment,
-   ID_THAMGIA           int,
+   MA_THAMGIA           int,
    ID_TUTHIEN           int,
    TAIKHOAN             varchar(500),
    TEN                  varchar(1000),
@@ -194,8 +194,8 @@ alter table HOATDONG add constraint FK_FK_TT_HD foreign key (ID_TUTHIEN)
 alter table NGUOIDUNG add constraint FK_FK_ND_CND foreign key (NGU_ID_NGUOIDUNG)
       references NGUOIDUNG (ID_NGUOIDUNG) on delete restrict on update restrict;
 
-alter table QUYENGOP add constraint FK_FK_TG_QG foreign key (ID_THAMGIA)
-      references NGUOITHAMGIA (ID_THAMGIA) on delete restrict on update restrict;
+alter table QUYENGOP add constraint FK_FK_TG_QG foreign key (MA_THAMGIA)
+      references NGUOITHAMGIA (MA_THAMGIA) on delete restrict on update restrict;
 
 alter table QUYENGOP add constraint FK_FK_TT_QG foreign key (ID_TUTHIEN)
       references TUTHIEN (ID_TUTHIEN) on delete restrict on update restrict;
@@ -205,7 +205,7 @@ alter table TAIKHOAN add constraint FK_FK_TT_TK foreign key (ID_TUTHIEN)
 
 alter table TUTHIEN add constraint FK_FK_ND_TT foreign key (ID_NGUOIDUNG)
       references NGUOIDUNG (ID_NGUOIDUNG) on delete restrict on update restrict;
-SET GLOBAL log_bin_trust_function_creators = 1;
+      
 delimiter //
 CREATE FUNCTION `MY_DECR`(param TEXT CHARACTER SET utf8mb4  COLLATE utf8mb4_unicode_ci) RETURNS text CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
 Begin

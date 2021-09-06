@@ -58,11 +58,34 @@
                     <!-- Post Title -->
                     <h1 class="posttitle">Quyên góp cho bà con vùng lũ</h1>
                 </div>
-                
+                <div>
+                    <p>Mục đích của việc khai báo đóng gớp để chúng tôi tổng hợp và công khai số tiền, gớp phần tạo tính minh bạch trong việc làm thiện nguyện</p>
+                </div>
                 <!-- Post Featured Image -->
                 <div class="article-post">
+                    @if($errors->first('sdt'))
+                    <small id="emailHelp" class="form-text text-danger">{{$errors->first('sdt')}}</small>
+                    @endif
                     <form action="/quyen-gop/{{$id}}" method="POST" enctype='multipart/form-data'>
                         @csrf
+                        <input type="hidden" name="sdt" value="{{old('sdt')}}">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label>Chứng từ <span class="text-danger text-center">*</span></label>
+                                <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
+                                @if($errors->first('image'))
+                                <small id="emailHelp" class="form-text text-danger">{{$errors->first('image')}}</small>
+                                @endif
+                                <small id="emailHelp" class="form-text text-small">Ảnh chụp màn hình chi tiết chuyển khoản hoặc ảnh chụp giấp tờ chuyển khoản</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ngân hàng</label>
+                                <input class="form-control" type="text" name="ten" placeholder="Tên ngân hàng" value="{{old('nganhang')}}">
+                                @if($errors->first('ten'))
+                                <small id="emailHelp" class="form-text text-danger">{{$errors->first('ten')}}</small>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label for="taikhoan">Số tài khoản <span class="text-danger text-center">*</span></label>
@@ -95,18 +118,8 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label>Chứng từ <span class="text-danger text-center">*</span></label>
-                                <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
-                                @if($errors->first('image'))
-                                <small id="emailHelp" class="form-text text-danger">{{$errors->first('image')}}</small>
-                                @endif
-                                <small id="emailHelp" class="form-text text-small">Ảnh chụp màn hình chi tiết chuyển khoản hoặc ảnh chụp giấp tờ chuyển khoản</small>
-                            </div>
-                        </div>
                         <a class="btn btn-info" href="/tu-thien/{{$id}}">Trở lại</a>
-                        <button class="btn btn-success">Đóng gớp</button>
+                        <button type="button" onclick="submitForm()" class="btn btn-success">Đóng gớp</button>
                     </form>
                 </div>
                 <!-- End Prev/Next -->
@@ -178,4 +191,31 @@
 ================================================== -->
     </div>
 </div>
+<script type="text/javascript">
+    var info = "Để đảm bảo thông tin chính xác vui lòng cung cấp thêm số điện thoại hoặc email liên hệ phục vụ cho việc xác minh";
+    window.onload = function() {
+        @if($errors->first('sdt'))
+        check = prompt(info);
+        if(check !== null){
+            $("input[name='sdt']").attr("value",check);
+            $("form").submit();
+        };
+        @endif
+    }
+    function submitForm(){
+        if($("input[name='sotien']")[0].value > 4000000) {
+            if($("input[name='sdt']")[0].value !== "") {
+                check = prompt(info, $("input[name='sdt']")[0].value);
+            }else{
+                check = prompt(info);
+            }
+            if(check !== null){
+                $("input[name='sdt']")[0].value=check;
+                $("form").submit();
+            }
+        }else{
+            $("form").submit();
+        }
+    }
+</script>
 @endsection

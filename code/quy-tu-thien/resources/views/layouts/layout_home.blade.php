@@ -16,7 +16,6 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i" rel="stylesheet">
         <link href="/assets/css/theme.css" rel="stylesheet">
         <!-- Begin tracking codes here, including ShareThis/Analytics -->
-
         <!-- End tracking codes here, including ShareThis/Analytics -->
     </head>
     <body class="layout-default">
@@ -122,5 +121,7 @@ and open the template in the editor.
         <script src="/assets/js/ie10-viewport-bug-workaround.js"></script>
         <script src="/assets/js/masonry.pkgd.min.js"></script>
         <script src="/assets/js/theme.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js" integrity="sha512-Y2IiVZeaBwXG1wSV7f13plqlmFOx8MdjuHyYFVoYzhyRr3nH/NMDjTBSswijzADdNzMyWNetbLMfOpIPl6Cv9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
     </body>
 </html>
