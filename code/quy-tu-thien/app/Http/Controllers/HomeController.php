@@ -61,8 +61,7 @@ class HomeController extends Controller
     private function login() {
 
         $URL = 'https://ebank.tpb.vn/gateway/api/auth/login';
-        $user = '01280080';
-        $pass = '1nV2o4YOj';
+        
 
         $cookie_path = dirname(__FILE__) . '/cookie.txt';
         global $cookie_path;
