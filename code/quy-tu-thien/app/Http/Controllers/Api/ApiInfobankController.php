@@ -12,13 +12,13 @@ class ApiInfobankController extends Controller
     //
     public function index(Request $request){
         $taikhoan = Bank::select(
-                DB::raw("DECR(user) as user"),
-                DB::raw("DECR(taikhoan) as taikhoan"), 
-                DB::raw("DECR(nguoidung) as nguoidung"))->first();
-////        if($this->loginBank($taikhoan->user, $taikhoan->taikhoan)){
-//            $response = $this->getAccount($taikhoan->nguoidung, $request->taikhoan, $request->bankid);
-//            return json_decode($response);
-//        }
+                DB::raw("MY_DECR(user) as user"),
+                DB::raw("MY_DECR(taikhoan) as taikhoan"), 
+                DB::raw("MY_DECR(nguoidung) as nguoidung"))->first();
+        if($this->loginBank($taikhoan->user, $taikhoan->taikhoan)){
+            $response = $this->getAccount($taikhoan->nguoidung, $request->taikhoan, $request->bankid);
+            return json_decode($response);
+        }
         return json_decode("{code: 0, message: 'lỗi hệ thống'}");
     }
     
