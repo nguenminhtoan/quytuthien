@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bank extends Model
+class Nganhang extends Model
 {
     use HasFactory;
-    protected $table="bank";
-    
-    public static function check($taikhoan, $bankid){
-        
-    }
+    protected $table = "nganhang";
 }
