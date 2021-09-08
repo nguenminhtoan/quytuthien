@@ -49,18 +49,21 @@ class HomeController extends Controller
                 $listimg = $request->file('image');
                 $json = [];
                 $string = "";
-                foreach($listimg as $img) {
+                $image = array();
+                foreach($listimg as $key => $img) {
                     $name = date("Ymdhis").".jpg";
-//                    $img->move(public_path('/images/'), $name);
+                    $temp = $key."_temp.jpg";
                     Storage::disk('local')->putFileAs('image/1000000005', $img, $name);
+                    array_push($image, '/image/'.$temp);
                     $link = Storage::disk('local')->path('image/1000000005/'.$name);
+                    copy($link, public_path('/image/'). $temp);
                     $request = new TesseractOCR($link);
                     $response = $request->run();
                     $this->convertArray($response, 'image/1000000005/'.$name,$json);
                     $string .= $response;
                 }
 
-                return view("home.confirm", ["list" => $json, "html" => $string]);
+                return view("home.confirm", ["list" => $json, "html" => $string, 'listimg' => $image]);
             }
         } catch (Exception $e) {
             
@@ -71,22 +74,29 @@ class HomeController extends Controller
     
     public function save(Request $request){
         $list = $request->taikhoan;
-        foreach($list as $key=>$item) {
-            if ($item["taikhoan"] == ""){
-                continue;
+        DB::beginTransaction();
+        try {
+            foreach ($list as $key => $item) {
+                if ($item["taikhoan"] == "") {
+                    continue;
+                }
+                $new = new Quyengop();
+
+                $new->thoigian = $item["thoigian"];
+                $new->taikhoan = DB::raw("('" . trim($item["taikhoan"]) . "')");
+                $new->sotien = $item["sotien"];
+                $new->id_tuthien = 1000000005;
+                $new->hinhanh = $item["hinhanh"];
+                $new->xacthuc = true;
+                $new->ngaytao = date("Y-m-d");
+                $new->save();
             }
-            $new = new Quyengop();
+        DB::commit();
             
-            $new->thoigian= $item["thoigian"];
-            $new->taikhoan= DB::raw("('".trim($item["taikhoan"])."')");
-            $new->sotien= $item["sotien"];
-            $new->id_tuthien = 1000000005;
-            $new->hinhanh = $item["hinhanh"];
-            $new->xacthuc = true;
-            $new->ngaytao = date("Y-m-d");
-            $new->save();
+            return redirect("/");
+        } catch (Exception $e) {
+            DB::rollback();
         }
-        return redirect("/");
     }
 
 
@@ -133,6 +143,8 @@ class HomeController extends Controller
                         $sotk = explode(" ",trim($item[1]));
                         $sotien = isset($sotk[1]) ? $sotk[1] : 0;
                         $item[1] = $sotk[0];
+                    } else {
+                        $sotien = 0;
                     }
                 }
                 $date = trim($item[0]);

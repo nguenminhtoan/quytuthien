@@ -14,8 +14,8 @@
    </head>
    <body class="loading" >
       <!-- Begin page -->
-      <div class="row container" style="margin-right: auto; margin-right: auto">
-        <div class="center class="col-sm-10">
+      <div class="row container" style="margin-right: auto; margin-right: auto; width: 100%">
+        <div class="center col-sm-6">
           <form action="/save" method="post">
               @csrf
               <table class="table-bordered">
@@ -44,7 +44,12 @@
               <button class="btn btn-primary">Lưu thông tin</button>
           </form>
         </div>
-        <div class="col-sm-2">{{$html}}</div>
+          <div class="col-sm-2">{{$html}}</div>
+        <div class="col-sm-4">
+            @foreach ($listimg as $row)
+            <img  src="{{$row}}" >
+            @endforeach
+        </div>
       </div>
       <!-- /End-bar -->
       <!-- bundle -->
