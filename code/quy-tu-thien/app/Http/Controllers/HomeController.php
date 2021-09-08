@@ -72,6 +72,9 @@ class HomeController extends Controller
     public function save(Request $request){
         $list = $request->taikhoan;
         foreach($list as $key=>$item) {
+            if ($item["thoigian"] == "" && $item["sotien"] == "" && $item["taikhoan"] == ""){
+                continue;
+            }
             $new = new Quyengop();
             
             $new->thoigian= $item["thoigian"];
