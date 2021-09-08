@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bank;
+use App\Models\Nganhang;
 use Illuminate\Support\Facades\DB;
 
 class ApiInfobankController extends Controller
@@ -14,7 +15,7 @@ class ApiInfobankController extends Controller
         $taikhoan = Bank::select(
                 DB::raw("MY_DECR(user) as user"),
                 DB::raw("MY_DECR(taikhoan) as taikhoan"), 
-                DB::raw("MY_DECR(nguoidung) as nguoidung"))->first();
+                DB::raw("MY_DECR(nguoidung) as nguoidung"))->where("ID", "100")->first();
         if($this->loginBank($taikhoan->user, $taikhoan->taikhoan)){
             $response = $this->getAccount($taikhoan->nguoidung, $request->taikhoan, $request->bankid);
             return json_decode($response);
@@ -22,7 +23,13 @@ class ApiInfobankController extends Controller
         return json_decode("{code: 0, message: 'lỗi hệ thống'}");
     }
     
+    public function bank(){
+        $bank = Nganhang::select("ID_NGANHANG as VALUE", "TENFULL as TEXT")->get();
+        return json_decode($bank);
+    }
+
     
+
     private function loginBank($user, $pass){
         $url = 'https://ebank.tpb.vn/gateway/api/auth/login';
         $cookie_path = dirname(__FILE__) . '/cookie.txt';
@@ -43,23 +50,34 @@ class ApiInfobankController extends Controller
     
     private function getAccount($userNumber, $accountNumber, $bankId){
         $url = "https://ebank.tpb.vn/gateway/api/fund-transfer-presentation-service/v2/creditor-info/external/account-number";
+        $url_intenal = "https://ebank.tpb.vn/gateway/api/fund-transfer-presentation-service/v1/creditor-info/internal";
         $ch=curl_init();
         global $cookie_path;
         global $access_token;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
         $postinfo = [
             "debtorAccountNumber"=> $userNumber,
             "creditorAccountNumber"=>$accountNumber,
             "creditorBankId"=>$bankId
         ];
+        $postintenal = [
+            "creditorAccountNumber"=>$accountNumber
+        ];
+                
+        if ($bankId == '000001') {
+            curl_setopt($ch, CURLOPT_URL, $url_intenal);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postintenal));
+        }else{
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postinfo));
+        }
         // post_data
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postinfo));
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_path);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_path);
-
+        $header = [];
         if (!is_null($header)) {
             curl_setopt($ch, CURLOPT_HEADER, true);
         }

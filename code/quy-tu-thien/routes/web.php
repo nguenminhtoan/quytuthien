@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 });
 Route::group(['namespace' => 'Api', 'prefix' => 'api'], function () {
     Route::get("/accoutcheck", "ApiInfobankController@index");
+    Route::get("/listbank", "ApiInfobankController@bank");
 });
 
 Route::get('/', 'HomeController@demo');
