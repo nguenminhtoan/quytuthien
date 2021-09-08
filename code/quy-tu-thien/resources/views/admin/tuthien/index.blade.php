@@ -73,6 +73,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($list as $item) 
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -81,9 +82,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <img src="assets/images/products/product-1.jpg" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+                                            <img src="{{$item -> HINHANH}}" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
                                             <p class="m-0 d-inline-block align-middle font-16">
-                                                <a href="apps-ecommerce-products-details.html" class="text-body">Amazing Modern Chair</a>
+                                                <a href="apps-ecommerce-products-details.html" class="text-body">{{$item -> TENQUY}}</a>
                                                 <br/>
                                                 <span class="text-warning mdi mdi-star"></span>
                                                 <span class="text-warning mdi mdi-star"></span>
@@ -93,19 +94,19 @@
                                             </p>
                                         </td>
                                         <td>
-                                            Aeron Chairs
+                                            {{$item -> BATDAU}}
                                         </td>
                                         <td>
-                                            09/12/2018
+                                            {{$item -> KETTHUC}}
                                         </td>
                                         <td>
-                                            $148.66
+                                            {{$item -> PHUTRACH}}
                                         </td>
                                         <td>
-                                            254
+                                            {{$item -> SDT}}, {{$item -> DIACHI}}
                                         </td>
                                         <td>
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">{{$item -> XACTHUC}}</span>
                                         </td>
                                         <td class="table-action">
                                             <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
@@ -113,6 +114,7 @@
                                             <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
