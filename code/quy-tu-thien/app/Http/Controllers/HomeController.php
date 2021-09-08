@@ -48,6 +48,7 @@ class HomeController extends Controller
             if ($request->file('image')) {
                 $listimg = $request->file('image');
                 $json = [];
+                $string = "";
                 foreach($listimg as $img) {
                     $name = date("Ymdhis").".jpg";
 //                    $img->move(public_path('/images/'), $name);
@@ -55,10 +56,11 @@ class HomeController extends Controller
                     $link = Storage::disk('local')->path('image/1000000005/'.$name);
                     $request = new TesseractOCR($link);
                     $response = $request->run();
-                    $json = array_merge($json, $this->convertArray($response, 'image/1000000005/'.$name));
+                    $this->convertArray($response, 'image/1000000005/'.$name,$json);
+                    $string .= $response;
                 }
 
-                return view("home.confirm", ["list" => $json, "image" => 'image/1000000005/'.$name]);
+                return view("home.confirm", ["list" => $json, "html" => $string]);
             }
         } catch (Exception $e) {
             
@@ -73,7 +75,7 @@ class HomeController extends Controller
             $new = new Quyengop();
             
             $new->thoigian= $item["thoigian"];
-            $new->taikhoan= DB::raw("('".$item["taikhoan"]."')");
+            $new->taikhoan= DB::raw("('".trim($item["taikhoan"])."')");
             $new->sotien= $item["sotien"];
             $new->id_tuthien = 1000000005;
             $new->hinhanh = $item["hinhanh"];
@@ -85,33 +87,51 @@ class HomeController extends Controller
     }
 
 
-    private function convertArray($string, $image){
+    private function convertArray(&$string, $image, &$arr){
         $string = str_replace("$", "5", $string);
         $string = preg_replace("/\.|\,|\|/", "", $string);
         $string = preg_replace("/[A-Za-z]/", "", $string);
         $string = preg_replace("/\.|\,/", "", $string);
         $list = preg_split('/\r\n|\r|\n/', $string);
         $list = array_filter($list);
-        $check = array_search(" ", array_slice($list,0), 0);
+        $list = array_filter($list, function($a) {
+                return trim($a) !== "";
+            });
+        $list = array_slice($list, 0);
+        $a = array_slice($list,0);
+        $check=0;
+        $key = 0;
+        while($key < count($a))
+        {
+            if (strpos($a[$key], "/") !== false ){
+                $check=$key;
+            }
+            $key++;
+        }
+        $check += 2;
         $list1= array_chunk(array_slice($list, 0, $check),2);
-        $list2= array_slice(array_filter(array_map('trim', array_slice($list, 1 + $check))), 0);
+        $list2= array_slice(array_filter(array_map('trim', array_slice($list, $check))), 0);
         
 //        dd([$list, $list1, $list2]);
-        $arr= [];
+//        $arr= [];
         foreach($list1 as $key=>$item) {
             if (count($item) == 2){
-                $sotien = (int)$list2[$key];
-                if ((int)$list2[$key] == 0) {
-                    $sotien = 100000;
-                } else if ((int)$list2[$key] < 1000) {
-                    $sotien = (int)$list2[$key] * 1000;
-                } else if ((int)$list2[$key] < 10000) {
-                    $sotien = (int)$list2[$key] * 100;
-                } 
-                
+                if (isset($list2[$key])){
+                    $sotien = (int)$list2[$key];
+                    if ((int)$list2[$key] == 0) {
+                        $sotien = 100000;
+                    } else if ((int)$list2[$key] < 1000) {
+                        $sotien = (int)$list2[$key] * 1000;
+                    } else if ((int)$list2[$key] < 10000) {
+                        $sotien = (int)$list2[$key] * 100;
+                    } 
+                } else{
+                    $sotien = 0;
+                }
+                $date = trim($item[0]);
                 array_push($arr, 
                     [
-                        "thoigian" => substr($item[0], -4)."-".substr($item[0],3,2)."-".substr($item[0],0,2),
+                        "thoigian" => substr($date, -4)."-".substr($date,3,2)."-".substr($date,0,2),
                         "taikhoan" => $item[1],
                         "sotien" => $sotien,
                         "hinhanh" => $image
