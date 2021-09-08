@@ -11,7 +11,7 @@
                     <li class="breadcrumb-item active">Products</li>
                 </ol>
             </div>
-            <h4 class="page-title">Tất Cả Hoạt Động Từ Thiện</h4>
+            <h4 class="page-title">Tất Cả Hoạt Động Quyên Góp</h4>
         </div>
     </div>
 </div>
@@ -22,7 +22,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Gây quỹ</a>
+                        <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i>Quyên Góp</a>
                     </div>
                     <div class="col-sm-8">
                         <div class="text-sm-end">
@@ -63,17 +63,18 @@
                                                 <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                             </div>
                                         </th>
-                                        <th class="all">Tên quỹ từ thiện</th>
-                                        <th>Bắt đầu</th>
-                                        <th>Kết thúc</th>
-                                        <th>Phụ trách</th>
-                                        <th>Liên hệ</th>
+                                        <th class="all">Tên người quyên góp</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Tài Khoản</th>
+                                        <th>Nội dung</th>
+                                        <th>Số Tiền</th>
+                                        <th>Thời Gian</th>
                                         <th>Trạng thái</th>
                                         <th style="width: 85px;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($list as $item) 
+                                    @foreach ($list as $item)
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -84,7 +85,7 @@
                                         <td>
                                             <img src="{{$item -> HINHANH}}" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
                                             <p class="m-0 d-inline-block align-middle font-16">
-                                                <a href="apps-ecommerce-products-details.html" class="text-body">{{$item -> TENQUY}}</a>
+                                                <a href="apps-ecommerce-products-details.html" class="text-body">{{$item -> TEN}}</a>
                                                 <br/>
                                                 <span class="text-warning mdi mdi-star"></span>
                                                 <span class="text-warning mdi mdi-star"></span>
@@ -94,16 +95,19 @@
                                             </p>
                                         </td>
                                         <td>
-                                            {{$item -> BATDAU}}
+                                            {{date("Y/m/d" ,strtotime($item -> NGAYTAO))}}
                                         </td>
                                         <td>
-                                            {{$item -> KETTHUC}}
+                                            {{$item -> TAIKHOAN}}
                                         </td>
                                         <td>
-                                            {{$item -> PHUTRACH}}
+                                            {{$item -> NOIDUNG}}
                                         </td>
                                         <td>
-                                            {{$item -> SDT}}, {{$item -> DIACHI}}
+                                            {{number_format($item -> SOTIEN)."đ"}}
+                                        </td>
+                                        <td>
+                                            {{date("Y/m/d" ,strtotime($item -> THOIGIAN))}}
                                         </td>
                                         <td>
                                             <span class="badge bg-success">{{$item -> XACTHUC}}</span>

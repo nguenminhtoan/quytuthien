@@ -18,8 +18,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::post('/login', 'AdminLoginController@auth');
     Route::get('/tuthien', 'AdminTuthienController@all');
     Route::get('/tuthien/{status}', 'AdminTuthienController@index');
-    Route::get('/quengop', 'AdminQuyengopController@all');
-    Route::get('/quengop/{status}', 'AdminQuyengopController@index');
+    Route::get('/quyengop', 'AdminQuyengopController@all');
+    Route::get('/quyengop/{status}', 'AdminQuyengopController@index');
     
 });
 Route::group(['namespace' => 'Api', 'prefix' => 'api'], function () {
