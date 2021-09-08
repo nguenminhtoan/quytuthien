@@ -95,7 +95,7 @@ class HomeController extends Controller
         $list = preg_split('/\r\n|\r|\n/', $string);
         $list = array_filter($list);
         $list = array_filter($list, function($a) {
-                return trim($a) !== "";
+                return trim($a) !== "" && strlen($a) > 2;
             });
         $list = array_slice($list, 0);
         $a = array_slice($list,0);
@@ -126,7 +126,11 @@ class HomeController extends Controller
                         $sotien = (int)$list2[$key] * 100;
                     } 
                 } else{
-                    $sotien = 0;
+                    if (strpos($item[1], " ") !== false) {
+                        $sotk = explode(" ",trim($item[1]));
+                        $sotien = isset($sotk[1]) ? $sotk[1] : 0;
+                        $item[1] = $sotk[0];
+                    }
                 }
                 $date = trim($item[0]);
                 array_push($arr, 
