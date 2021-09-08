@@ -72,9 +72,9 @@ class HomeController extends Controller
         foreach($list as $key=>$item) {
             $new = new Quyengop();
             
-            $new->thoigian= $item->thoigian;
-            $new->taikhoan= DB::raw("('".$item->taikhoan."')");
-            $new->sotien= $item->sotien;
+            $new->thoigian= $item["thoigian"];
+            $new->taikhoan= DB::raw("('".$item["taikhoan"]."')");
+            $new->sotien= $item["sotien"];
             $new->id_tuthien = 1000000005;
             $new->hinhanh = $request->image;
             $new->xacthuc = true;

@@ -28,6 +28,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'api'], function () {
 });
 
 Route::get('/', 'HomeController@demo');
+Route::post('/save', 'HomeController@save');
 
 Route::post('/', 'HomeController@annotateImage');
 
