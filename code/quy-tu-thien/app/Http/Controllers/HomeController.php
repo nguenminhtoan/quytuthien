@@ -76,7 +76,7 @@ class HomeController extends Controller
             $new->taikhoan= DB::raw("('".$item["taikhoan"]."')");
             $new->sotien= $item["sotien"];
             $new->id_tuthien = 1000000005;
-            $new->hinhanh = $request->image;
+            $new->hinhanh = $item["hinhanh"];
             $new->xacthuc = true;
             $new->ngaytao = date("Y-m-d");
             $new->save();
@@ -113,7 +113,8 @@ class HomeController extends Controller
                     [
                         "thoigian" => substr($item[0], -4)."-".substr($item[0],3,2)."-".substr($item[0],0,2),
                         "taikhoan" => $item[1],
-                        "sotien" => $sotien
+                        "sotien" => $sotien,
+                        "hinhanh" => $image
                     ]);
 //                $new = new Quyengop();
 //                $date = explode("/", $item[0]);
