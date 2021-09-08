@@ -11,6 +11,8 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i" rel="stylesheet">
         <link href="/assets/css/theme.css" rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
    </head>
    <body class="loading" >
       <!-- Begin page -->
@@ -42,6 +44,7 @@
                   </tbody>
               </table>
               <button class="btn btn-primary">Lưu thông tin</button>
+              <button type="button" onclick="add(this);" class="btn btn-success">Thêm dòng</button>
           </form>
         </div>
           <div class="col-sm-2">{{$html}}</div>
@@ -58,4 +61,20 @@
       <!-- demo app -->
       <!-- end demo js-->
    </body>
+   <script>
+       
+    function add(evnt){
+        var clone = $(evnt).closest("form").find("table tr:last").clone();
+        num = $(evnt).closest("form").find("table tr").length - 1;
+        clone.find("input")[0].value = '';
+        clone.find("input")[0].name = "taikhoan["+num+"][taikhoan]";
+        clone.find("input")[1].value = '';
+        clone.find("input")[1].name = "taikhoan["+num+"][thoigian]";
+        clone.find("input")[2].value = '';
+        clone.find("input")[2].name = "taikhoan["+num+"][sotien]";
+        $(evnt).closest("form").find("table tr:last").after(clone);
+    }
+    
+   
+   </script>
 </html>

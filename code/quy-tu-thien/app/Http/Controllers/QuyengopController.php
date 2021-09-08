@@ -81,6 +81,7 @@ class QuyengopController extends Controller
     public function complete(){
     }
     
+
     private function checkInfo($text, $taikhoan, $hoten, $nhan, $sotien, $ngay, $magiaodich) {
         $arr = preg_split('/\r\n|\r|\n/', $text);
         $arrcheck = [false, false, false, false, false, false];

@@ -72,7 +72,7 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label>Chứng từ <span class="text-danger text-center">*</span></label>
-                                <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
+                                <input class="form-control" type="file" name="image" onchange="loadFile(event)" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
                                 @if($errors->first('image'))
                                 <small id="emailHelp" class="form-text text-danger">{{$errors->first('image')}}</small>
                                 @endif
@@ -80,10 +80,9 @@
                             </div>
                             <div class="col-md-6">
                                 <label>Ngân hàng</label>
-                                <input type="search" id="form-autocomplete" class="form-control mdb-autocomplete" data-url="/api/listbank" autocomplete="on">
+                                <!--<input type="search" id="form-autocomplete" class="form-control mdb-autocomplete" data-url="/api/listbank" autocomplete="on">-->
                                 
-                                <select name="nganhang">
-                                    
+                                <select name="nganhang" class="form-control">
                                     @foreach($nganhang as $item)
                                     <option class="form-control" {{old('nganhang') == $item->ID_NGANHANG ? "selected" : ""}} value="{{$item->ID_NGANHANG}}">{{$item->TENFULL."(".$item->TEN.")"}}</option>
                                     @endforeach
@@ -210,7 +209,7 @@
         @endif
     }
     function submitForm(){
-        if($("input[name='sotien']")[0].value > 4000000) {
+        if($("input[name='sotien']")[0].value > 2000000) {
             if($("input[name='sdt']")[0].value !== "") {
                 check = prompt(info, $("input[name='sdt']")[0].value);
             }else{
@@ -225,61 +224,34 @@
         }
     }
     
-    $(function() {
-        var availableTags = JSON.parse('{!! $nganhang->toJson() !!}');
-
-        $("#form-autocomplete").autocomplete({
-    source: availableTags
-  });
-      });
+    
+    function loadFile(event) {
+        var fd = new FormData();
+        var files = event.target.files;
+        if(files.length > 0 ){
+           fd.append('file',files[0]);
+           $.ajax({
+                url: '/api/convertInfo',
+                type: 'post',
+                data: fd,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    alert(response);
+                },
+             });
+        }else{
+           alert("Please select a file.");
+        }
+    };
+    
+//    $(function() {
+//        var availableTags = JSON.parse('{!! $nganhang->toJson() !!}');
+//
+//        $("#form-autocomplete").autocomplete({
+//    source: availableTags
+//  });
+//      });
 </script>
-<style>
-    .ui-autocomplete {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    float: left;
-    display: none;
-    min-width: 160px;
-    _width: 160px;
-    padding: 4px 0;
-    margin: 2px 0 0 0;
-    list-style: none;
-    background-color: #ffffff;
-    border-color: #ccc;
-    border-color: rgba(0, 0, 0, 0.2);
-    border-style: solid;
-    border-width: 1px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding;
-    background-clip: padding-box;
-    *border-right-width: 2px;
-    *border-bottom-width: 2px;
-}
-.ui-menu-item > a.ui-corner-all {
-    display: block;
-    padding: 3px 15px;
-    clear: both;
-    font-weight: normal;
-    line-height: 18px;
-    color: #555555;
-    white-space: nowrap;
-}
-.ui-state-hover, &.ui-state-active {
-      color: #ffffff;
-      text-decoration: none;
-      background-color: #0088cc;
-      border-radius: 0px;
-      -webkit-border-radius: 0px;
-      -moz-border-radius: 0px;
-      background-image: none;
-    }
-    </style>
 @endsection
