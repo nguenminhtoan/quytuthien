@@ -46,8 +46,8 @@ class HomeController extends Controller
 //        return "xong";
         try {
             if ($request->file('image')) {
-                $listimg = [$request->file('image')];
-                
+                $listimg = $request->file('image');
+                $json = [];
                 foreach($listimg as $img) {
                     $name = date("Ymdhis").".jpg";
 //                    $img->move(public_path('/images/'), $name);
@@ -55,7 +55,7 @@ class HomeController extends Controller
                     $link = Storage::disk('local')->path('image/1000000005/'.$name);
                     $request = new TesseractOCR($link);
                     $response = $request->run();
-                    $json = $this->convertArray($response, 'image/1000000005/'.$name);
+                    $json = array_merge($json, $this->convertArray($response, 'image/1000000005/'.$name));
                 }
 
                 return view("home.confirm", ["list" => $json, "image" => 'image/1000000005/'.$name]);
@@ -88,6 +88,7 @@ class HomeController extends Controller
     private function convertArray($string, $image){
         $string = str_replace("$", "5", $string);
         $string = preg_replace("/\.|\,|\|/", "", $string);
+        $string = preg_replace("/[A-Za-z]/", "", $string);
         $string = preg_replace("/\.|\,/", "", $string);
         $list = preg_split('/\r\n|\r|\n/', $string);
         $list = array_filter($list);
