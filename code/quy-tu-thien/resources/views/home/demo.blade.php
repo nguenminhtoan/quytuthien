@@ -12,7 +12,7 @@ and open the template in the editor.
     <body>
         <form action="/" method="POST" enctype='multipart/form-data'>
             @csrf
-            <input class="form-control" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
+            <input class="form-control" multiple="" type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/tiff,image/svg" value="{{old('image')}}">
                                 
             <button>submit</button>
         </form>
