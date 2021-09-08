@@ -47,7 +47,7 @@
           <div class="col-sm-2">{{$html}}</div>
         <div class="col-sm-4">
             @foreach ($listimg as $row)
-            <img  src="{{$row}}" >
+            <img style="width: 100%" src="{{$row}}" ><br>
             @endforeach
         </div>
       </div>
