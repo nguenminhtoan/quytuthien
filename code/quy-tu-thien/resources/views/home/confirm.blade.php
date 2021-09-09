@@ -13,6 +13,23 @@
         <link href="/assets/css/theme.css" rel="stylesheet">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
+         <script>
+       
+            function add(evnt){
+                var clone = $(evnt).closest("form").find("table tr:last").clone();
+                num = $(evnt).closest("form").find("table tr").length - 1;
+                clone.find("input")[0].value = '';
+                clone.find("input")[0].name = "taikhoan["+num+"][taikhoan]";
+                clone.find("input")[1].value = '';
+                clone.find("input")[1].name = "taikhoan["+num+"][thoigian]";
+                clone.find("input")[2].value = '';
+                clone.find("input")[2].name = "taikhoan["+num+"][sotien]";
+                clone.find("input")[3].name = "taikhoan["+num+"][hinhanh]";
+                $(evnt).closest("form").find("table tr:last").after(clone);
+            }
+
+
+        </script>
    </head>
    <body class="loading" >
       <!-- Begin page -->
@@ -36,8 +53,8 @@
                               <input class="form-control" name="taikhoan[{{$key}}][thoigian]" value="{{$row["thoigian"]}}">
                           </td>
                           <td>
-                              <input type="hidden" name="taikhoan[{{$key}}][hinhanh]" value="{{$row["hinhanh"]}}">
                               <input class="form-control" name="taikhoan[{{$key}}][sotien]" value="{{$row["sotien"]}}">
+                              <input type="hidden" name="taikhoan[{{$key}}][hinhanh]" value="{{$row["hinhanh"]}}">
                           </td>
                       </tr>
                       @endforeach
@@ -63,20 +80,5 @@
       <!-- demo app -->
       <!-- end demo js-->
    </body>
-   <script>
-       
-    function add(evnt){
-        var clone = $(evnt).closest("form").find("table tr:last").clone();
-        num = $(evnt).closest("form").find("table tr").length - 1;
-        clone.find("input")[0].value = '';
-        clone.find("input")[0].name = "taikhoan["+num+"][taikhoan]";
-        clone.find("input")[1].value = '';
-        clone.find("input")[1].name = "taikhoan["+num+"][thoigian]";
-        clone.find("input")[2].value = '';
-        clone.find("input")[2].name = "taikhoan["+num+"][sotien]";
-        $(evnt).closest("form").find("table tr:last").after(clone);
-    }
-    
-   
-   </script>
+  
 </html>
