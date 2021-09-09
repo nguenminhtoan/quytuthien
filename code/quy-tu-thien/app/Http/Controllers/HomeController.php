@@ -134,11 +134,7 @@ class HomeController extends Controller
             if (isset($list3[$key])){
                 $sotien = (int)preg_replace("/\.|\,|\s/", "", $list3[$key]);
                 if ($sotien == 0) {
-                    $sotien = 100000;
-                } else if ($sotien < 1000) {
-                    $sotien = $sotien * 1000;
-                } else if ($sotien < 10000) {
-                    $sotien = $sotien * 100;
+                    $sotien = 50000;
                 } 
             } else{
                 $sotien = 0;
