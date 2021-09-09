@@ -47,12 +47,12 @@
               <button type="button" onclick="add(this);" class="btn btn-success">Thêm dòng</button>
           </form>
         </div>
-          <div class="col-sm-2">{{$html}}</div>
         <div class="col-sm-4">
             @foreach ($listimg as $row)
             <img style="width: 100%; height: auto" src="{{$row}}" ><br>
             @endforeach
         </div>
+        <div class="col-sm-2">{{dd($html)}}</div>
       </div>
       <!-- /End-bar -->
       <!-- bundle -->
