@@ -122,7 +122,7 @@ class HomeController extends Controller
                 array_push($list, $item);
             }
         }
-        $list1 = array_values(preg_grep("/([a-z0-9]{4}[,.][0-9]{3,7})|([0-9]{9,14}|([a-z]{3,4}[,.][a-z]{4,6}))/", $list));
+        $list1 = array_values(preg_grep("/([a-z0-9]{4}[,.][0-9]{3,7})|([0-9]{9,14})|([a-z]{3,4}[,.][a-z]{4,6})/", $list));
         $list2 = array_values(preg_grep("/([0-9]{2}\/[0-9]{2}\/[0-9]{4})|([0-9]{2}\/[0-9]{2}7[0-9]{4})|([0-9]{4,6}2020)/", $list));
         $list3 = array_values(preg_grep("/(^([a-z0-9]{1,3}[,.][0-9]{1,3}))|^([0-9]{1,5})$|^([a-zA-Z0-9]{3})$/", $list));
         foreach($list3 as $key => $item){
