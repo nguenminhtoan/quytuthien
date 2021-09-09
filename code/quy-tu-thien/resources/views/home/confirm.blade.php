@@ -48,9 +48,9 @@
           </form>
         </div>
         <div class="col-sm-4">
-            <div  style="transform: rotate(-90deg);">
+            <div  {{count($listimg) >= 4 ? 'style="transform: rotate(-90deg);' : ''}}>
                     @foreach ($listimg as $row)
-                    <img style="width: 100%;" src="{{$row}}" ><br>
+                    <img style="width: 100%;height: auto;" src="{{$row}}" ><br>
                     @endforeach
             </div>
         </div>
