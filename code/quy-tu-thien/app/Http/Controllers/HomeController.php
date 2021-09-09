@@ -59,9 +59,10 @@ class HomeController extends Controller
                     copy($link, public_path('/image/'). $temp);
                     $request = new TesseractOCR($link);
                     $response = $request->run();
-                    $this->convertArray($response, 'image/1000000005/'.$name,$json);
-                    $string .= $response;
+                    $string .= $response. "\n\n";
                 }
+                $this->convertArray($string, 'image/1000000005/'.$name,$json);
+                $string .= $response;
 
                 return view("home.confirm", ["list" => $json, "html" => $string, 'listimg' => $image]);
             }
@@ -125,7 +126,12 @@ class HomeController extends Controller
         $list2 = array_values(preg_grep("/([0-9]{2}\/[0-9]{2}\/[0-9]{4})|([0-9]{2}\/[0-9]{2}7[0-9]{4})|([0-9]{4,6}2020)/", $list));
         $list3 = array_values(preg_grep("/(^([a-z0-9]{1,3}[,.][0-9]{1,3}))|^([0-9]{1,5})$|^([a-zA-Z0-9]{3})$/", $list));
         foreach($list3 as $key => $item){
-            $item = (int)preg_replace("/\.|\,|\s/", "", $item);
+            if (isset($list1[$key])){
+                $number = (int)preg_replace("/\.|\,|\s/", "", $list1[$key]);
+            }else{
+                $number += 1;
+            }
+            
             if (isset($list3[$key])){
                 $sotien = (int)preg_replace("/\.|\,|\s/", "", $list3[$key]);
                 if ($sotien == 0) {
@@ -144,7 +150,7 @@ class HomeController extends Controller
             array_push($arr, 
                 [
                     "thoigian" => substr($date, -4)."-".substr($date,3,2)."-".substr($date,0,2),
-                    "taikhoan" => $item,
+                    "taikhoan" => $number,
                     "sotien" => $sotien,
                     "hinhanh" => $image
                 ]);
