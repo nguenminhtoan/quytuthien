@@ -28,7 +28,6 @@
                   </thead>
                   <tbody>
                       @foreach($list as $key => $row)
-                      <input type="hidden" name="taikhoan[{{$key}}][hinhanh]" value="{{$row["hinhanh"]}}">
                       <tr>
                           <td>
                               <input class="form-control" name="taikhoan[{{$key}}][taikhoan]" value="{{$row["taikhoan"]}}">
@@ -37,6 +36,7 @@
                               <input class="form-control" name="taikhoan[{{$key}}][thoigian]" value="{{$row["thoigian"]}}">
                           </td>
                           <td>
+                              <input type="hidden" name="taikhoan[{{$key}}][hinhanh]" value="{{$row["hinhanh"]}}">
                               <input class="form-control" name="taikhoan[{{$key}}][sotien]" value="{{$row["sotien"]}}">
                           </td>
                       </tr>

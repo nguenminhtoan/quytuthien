@@ -23,7 +23,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     
 });
 Route::group(['namespace' => 'Api', 'prefix' => 'api'], function () {
-    Route::get("/accoutcheck", "ApiInfobankController@index");
+    Route::post("/accoutcheck", "ApiInfobankController@index");
     Route::get("/listbank", "ApiInfobankController@bank");
     Route::post("/convertInfo", "ApiInfobankController@convertToinfo");
 });

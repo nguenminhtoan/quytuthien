@@ -82,7 +82,8 @@
                                 <label>Ngân hàng</label>
                                 <!--<input type="search" id="form-autocomplete" class="form-control mdb-autocomplete" data-url="/api/listbank" autocomplete="on">-->
                                 
-                                <select name="nganhang" class="form-control">
+                                <select name="nganhang" class="form-control" onchange="checkInfo()">
+                                    <option value="">Chọn</option>
                                     @foreach($nganhang as $item)
                                     <option class="form-control" {{old('nganhang') == $item->ID_NGANHANG ? "selected" : ""}} value="{{$item->ID_NGANHANG}}">{{$item->TENFULL."(".$item->TEN.")"}}</option>
                                     @endforeach
@@ -95,7 +96,7 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label for="taikhoan">Số tài khoản <span class="text-danger text-center">*</span></label>
-                                <input id="taikhoan" class="form-control" type="number" name="taikhoan" value="{{old('taikhoan')}}" placeholder="số tài khoản ngân hàng">
+                                <input id="taikhoan" class="form-control" type="text" name="taikhoan" onfocusout="checkInfo()" value="{{old('taikhoan')}}" placeholder="số tài khoản ngân hàng">
                                 @if($errors->first('taikhoan'))
                                 <small id="emailHelp" class="form-text text-danger">{{$errors->first('taikhoan')}}</small>
                                 @endif
@@ -234,17 +235,44 @@
                 url: '/api/convertInfo',
                 type: 'post',
                 data: fd,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    alert(response);
+                    $("input[name='taikhoan']").attr("value",response.taikhoan);
+                    $("input[name='sotien']").attr("value",response.sotien);
+                    checkInfo();
                 },
              });
-        }else{
-           alert("Please select a file.");
         }
     };
+    
+    function checkInfo(){
+        var taikhoan = $("input[name='taikhoan']").val();
+        var bankid = $("select[name='nganhang']").val();
+        if(bankid != "" && taikhoan != ""){
+            var fd = new FormData();
+            fd.append('taikhoan', $("input[name='taikhoan']").val());
+            fd.append('bankid', $("select[name='nganhang']").val());
+            $.ajax({
+                url: '/api/accoutcheck',
+                type: 'post',
+                data: fd,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                },
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if (response.responseCode == null) {
+                        $("input[name='ten']")[0].value=response.creditorInfo.name;
+                    } else {
+                        alert("Thông tin tài khoảng không chính xác"); 
+                    }
+                },
+             });
+        }
+    }
     
 //    $(function() {
 //        var availableTags = JSON.parse('{!! $nganhang->toJson() !!}');

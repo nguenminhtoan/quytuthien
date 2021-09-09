@@ -37,9 +37,16 @@ class ApiInfobankController extends Controller
         Storage::disk('local')->putFileAs('tempfile', $file, $name);
         $link = Storage::disk('local')->path('tempfile/'.$name);
         $response = (new TesseractOCR($link))->run();
-        $arr = preg_split('/\r\n|\r|\n/', $response);
+        $string =$this->convert($response);
+        $arr = preg_split('/\r\n|\r|\n/', $string);
         $list = array_filter($arr,function($a){return trim($a)!=="";});
-        return $list;
+        $curentcy = preg_replace('/[A-Za-z\.\,\-\s]/', '', preg_grep("/([0-9]+[,.][0-9]+)/", $list));
+        foreach($list as $key => $item){
+            $list[$key] = str_replace(' ', '', $item);
+            $list[$key] = preg_replace('/[A-Za-z\.]/', ' ', $list[$key]);
+        }
+        $list = preg_grep("/\d{7,16}/", $list);
+        return ['sotien' => array_pop($curentcy), "taikhoan" => array_shift($list)];
     }
 
     private function loginBank($user, $pass){
