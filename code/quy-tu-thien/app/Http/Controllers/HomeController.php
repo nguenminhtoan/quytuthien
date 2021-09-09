@@ -62,7 +62,6 @@ class HomeController extends Controller
                     $string .= $response. "\n\n";
                 }
                 $this->convertArray($string, 'image/1000000005/'.$name,$json);
-                $string .= $response;
 
                 return view("home.confirm", ["list" => $json, "html" => $string, 'listimg' => $image]);
             }
