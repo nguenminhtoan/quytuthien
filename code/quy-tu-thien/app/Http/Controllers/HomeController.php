@@ -103,6 +103,8 @@ class HomeController extends Controller
     private function convertArray(&$string, $image, &$arr){
         $string = str_replace("$", "5", $string);
         $string = str_replace("'", "", $string);
+        $string = str_replace("+", "", $string);
+        $string = str_replace("s0", "50", $string);
 //        $string = preg_replace("/\.|\,|\|/", "", $string);
 //        $string = preg_replace("/[A-Za-z]/", "", $string);
 //        $string = preg_replace("/\.|\,/", "", $string);
